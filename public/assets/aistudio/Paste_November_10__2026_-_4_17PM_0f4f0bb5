@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2FA TOTP Authenticator &amp; Setup Tool</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- QRCode.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom subtle animations and scrollbar */
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s linear, stroke 0.3s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        #qrcode img, #qrcode canvas {
+            margin: 0 auto;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-sm font-medium">
+            <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="toast-message">Copied to clipboard!</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <header class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800/80 pb-6">
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">2FA TOTP Authenticator</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">RFC 6238 (HMAC-SHA1, 6-digit, 30s) • Client-Side Web Crypto</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full self-start sm:self-auto">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                100% Local &amp; Private
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Configuration & Manual Setup (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Card 1: Secret Key & Account Configuration -->
+                <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-slate-800 text-indigo-400 text-xs font-bold flex items-center justify-center border border-slate-700">1</span>
+                            Account &amp; Secret Configuration
+                        </h2>
+                        <span class="text-xs text-slate-400">SHA-1 • 6 Digits • 30s</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Issuer Name -->
+                            <div>
+                                <label for="issuerInput" class="block text-xs font-medium text-slate-300 mb-1.5">
+                                    Issuer Name
+                                </label>
+                                <input type="text" id="issuerInput" value="MyWebApp" placeholder="e.g. MyWebApp"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition">
+                            </div>
+
+                            <!-- Account Name -->
+                            <div>
+                                <label for="accountInput" class="block text-xs font-medium text-slate-300 mb-1.5">
+                                    Account Name
+                                </label>
+                                <input type="text" id="accountInput" value="user@example.com" placeholder="e.g. user@example.com"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition">
+                            </div>
+                        </div>
+
+                        <!-- Base32 Secret Key -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="secretInput" class="block text-xs font-medium text-slate-300">
+                                    Base32 Secret Key
+                                </label>
+                                <span id="secretError" class="text-xs text-rose-400 hidden">Invalid Base32 characters (A-Z, 2-7 only)</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="text" id="secretInput" spellcheck="false" autocomplete="off"
+                                    class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm font-mono uppercase tracking-wider text-indigo-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition">
+                                <div class="flex gap-2">
+                                    <button type="button" id="generateSecretBtn"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl transition cursor-pointer shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                        </svg>
+                                        Generate
+                                    </button>
+                                    <button type="button" id="copySecretBtn"
+                                        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-700 transition cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1.5">
+                                Uses <code class="text-slate-400">crypto.getRandomValues()</code> to generate a 16-character (80-bit) or 32-character Base32 secret.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Card 2: QR Code & Manual Setup -->
+                <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-slate-800 text-indigo-400 text-xs font-bold flex items-center justify-center border border-slate-700">2</span>
+                            QR Code &amp; Manual Setup
+                        </h2>
+                        <span class="text-xs text-slate-400">Scan with any 2FA app</span>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <!-- QR Code Box -->
+                        <div class="bg-white p-3.5 rounded-2xl shadow-lg shrink-0">
+                            <div id="qrcode" class="w-44 h-44 flex items-center justify-center"></div>
+                        </div>
+
+                        <!-- Manual Details -->
+                        <div class="flex-1 w-full space-y-4 min-w-0">
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-xs font-medium text-slate-400">Formatted Secret Key (Manual Entry)</span>
+                                    <button type="button" id="copyFormattedSecretBtn" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium cursor-pointer">
+                                        Copy Key
+                                    </button>
+                                </div>
+                                <div id="formattedSecretDisplay" class="bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 font-mono text-sm text-emerald-300 tracking-widest break-all">
+                                    ---- ---- ---- ----
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-xs font-medium text-slate-400">Standard <code class="text-slate-300">otpauth://</code> URI</span>
+                                    <button type="button" id="copyUriBtn" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium cursor-pointer">
+                                        Copy URI
+                                    </button>
+                                </div>
+                                <div id="uriDisplay" class="bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 font-mono text-xs text-slate-400 break-all max-h-24 overflow-y-auto">
+                                    otpauth://totp/...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Live TOTP & Verification Tester (5 cols) -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- Card 3: Live TOTP Code Generator -->
+                <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-slate-800 text-indigo-400 text-xs font-bold flex items-center justify-center border border-slate-700">3</span>
+                            Live TOTP Code
+                        </h2>
+                        <!-- Countdown Ring -->
+                        <div class="flex items-center gap-2.5">
+                            <span id="countdownText" class="text-xs font-mono font-semibold text-slate-300">30s</span>
+                            <svg class="w-7 h-7" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="15" fill="none" stroke="#1e293b" stroke-width="3"></circle>
+                                <circle id="progressRing" class="progress-ring-circle" cx="18" cy="18" r="15" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="94.2477" stroke-dashoffset="0" stroke-linecap="round"></circle>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Big Code Display -->
+                    <div id="copyCodeBox" role="button" tabindex="0" title="Click to copy TOTP code"
+                        class="group bg-slate-950 hover:bg-slate-950/80 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 text-center cursor-pointer transition-all">
+                        <div id="totpDisplay" class="font-mono text-4xl sm:text-5xl font-bold tracking-[0.2em] text-white group-hover:text-indigo-300 transition-colors select-all">
+                            ------
+                        </div>
+                        <div class="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-400 group-hover:text-indigo-400 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Click code to copy</span>
+                        </div>
+                    </div>
+
+                    <!-- Linear Progress Bar -->
+                    <div class="mt-5">
+                        <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                            <div id="progressBar" class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Card 4: Code Verification Tester -->
+                <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-slate-800 text-indigo-400 text-xs font-bold flex items-center justify-center border border-slate-700">4</span>
+                            Code Verification Tester
+                        </h2>
+                        <span class="text-xs text-slate-400">±1 step tolerance</span>
+                    </div>
+
+                    <p class="text-xs text-slate-400 mb-4">
+                        Enter a 6-digit code from your authenticator app or your web-app to verify it matches the current secret.
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <input type="text" id="verifyInput" maxlength="6" inputmode="numeric" placeholder="000000"
+                                class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-center font-mono text-xl tracking-[0.25em] text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition">
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div id="verifyStatus" class="hidden rounded-xl px-4 py-2.5 text-sm font-medium flex items-center justify-center gap-2 border">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // Base32 Alphabet (RFC 4648)
+            const BASE32_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+            const PERIOD = 30;
+            const DIGITS = 6;
+
+            // DOM Elements
+            const issuerInput = document.getElementById('issuerInput');
+            const accountInput = document.getElementById('accountInput');
+            const secretInput = document.getElementById('secretInput');
+            const secretError = document.getElementById('secretError');
+            const generateSecretBtn = document.getElementById('generateSecretBtn');
+            const copySecretBtn = document.getElementById('copySecretBtn');
+            const copyFormattedSecretBtn = document.getElementById('copyFormattedSecretBtn');
+            const copyUriBtn = document.getElementById('copyUriBtn');
+            const formattedSecretDisplay = document.getElementById('formattedSecretDisplay');
+            const uriDisplay = document.getElementById('uriDisplay');
+            const qrcodeContainer = document.getElementById('qrcode');
+            const totpDisplay = document.getElementById('totpDisplay');
+            const copyCodeBox = document.getElementById('copyCodeBox');
+            const countdownText = document.getElementById('countdownText');
+            const progressRing = document.getElementById('progressRing');
+            const progressBar = document.getElementById('progressBar');
+            const verifyInput = document.getElementById('verifyInput');
+            const verifyStatus = document.getElementById('verifyStatus');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+
+            let qrCodeInstance = null;
+            let currentTotp = '';
+            let lastTimeStep = -1;
+            let toastTimeout = null;
+
+            /**
+             * Show a non-blocking toast notification
+             */
+            function showToast(msg) {
+                toastMessage.textContent = msg;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 2200);
+            }
+
+            /**
+             * Copy text to clipboard using document.execCommand('copy')
+             */
+            function copyToClipboard(text, label) {
+                if (!text) return;
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(`${label} copied to clipboard!`);
+                } catch (err) {
+                    showToast('Failed to copy');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            /**
+             * Generate a cryptographically secure Base32 secret
+             */
+            function generateRandomSecret(length = 16) {
+                const randomValues = new Uint8Array(length);
+                window.crypto.getRandomValues(randomValues);
+                let secret = '';
+                for (let i = 0; i < length; i++) {
+                    secret += BASE32_CHARS[randomValues[i] % 32];
+                }
+                return secret;
+            }
+
+            /**
+             * Decode a Base32 string into a Uint8Array
+             */
+            function base32ToBytes(base32) {
+                const cleaned = base32.toUpperCase().replace(/[\s=]/g, '');
+                if (!cleaned || !/^[A-Z2-7]+$/.test(cleaned)) {
+                    return null;
+                }
+
+                let bits = 0;
+                let value = 0;
+                const output = [];
+
+                for (let i = 0; i < cleaned.length; i++) {
+                    const idx = BASE32_CHARS.indexOf(cleaned[i]);
+                    if (idx === -1) return null;
+                    value = (value << 5) | idx;
+                    bits += 5;
+
+                    if (bits >= 8) {
+                        output.push((value >>> (bits - 8)) & 0xff);
+                        bits -= 8;
+                    }
+                }
+                return new Uint8Array(output);
+            }
+
+            /**
+             * Generate an RFC 6238 TOTP code for a given secret and time step
+             */
+            async function generateTOTP(secret, timeStep) {
+                const keyBytes = base32ToBytes(secret);
+                if (!keyBytes || keyBytes.length === 0) return null;
+
+                // Convert timeStep to 8-byte big-endian buffer
+                const counterBuffer = new ArrayBuffer(8);
+                const view = new DataView(counterBuffer);
+                const high = Math.floor(timeStep / 0x100000000);
+                const low = timeStep >>> 0;
+                view.setUint32(0, high, false);
+                view.setUint32(4, low, false);
+
+                try {
+                    const cryptoKey = await window.crypto.subtle.importKey(
+                        'raw',
+                        keyBytes,
+                        { name: 'HMAC', hash: 'SHA-1' },
+                        false,
+                        ['sign']
+                    );
+
+                    const signature = await window.crypto.subtle.sign('HMAC', cryptoKey, counterBuffer);
+                    const hmac = new Uint8Array(signature);
+
+                    // Dynamic truncation
+                    const offset = hmac[hmac.length - 1] & 0x0f;
+                    const binary =
+                        ((hmac[offset] & 0x7f) << 24) |
+                        ((hmac[offset + 1] & 0xff) << 16) |
+                        ((hmac[offset + 2] & 0xff) << 8) |
+                        (hmac[offset + 3] & 0xff);
+
+                    const otp = binary % Math.pow(10, DIGITS);
+                    return otp.toString().padStart(DIGITS, '0');
+                } catch (err) {
+                    console.error('TOTP generation error:', err);
+                    return null;
+                }
+            }
+
+            /**
+             * Build standard otpauth:// URI
+             */
+            function buildOtpAuthUri() {
+                const issuer = issuerInput.value.trim() || 'MyWebApp';
+                const account = accountInput.value.trim() || 'user@example.com';
+                const secret = secretInput.value.toUpperCase().replace(/\s+/g, '');
+
+                const label = `${encodeURIComponent(issuer)}:${encodeURIComponent(account)}`;
+                const params = new URLSearchParams({
+                    secret: secret,
+                    issuer: issuer,
+                    algorithm: 'SHA1',
+                    digits: DIGITS.toString(),
+                    period: PERIOD.toString()
+                });
+
+                return `otpauth://totp/${label}?${params.toString()}`;
+            }
+
+            /**
+             * Update QR Code and Manual Setup displays
+             */
+            function updateSetupDisplays() {
+                const rawSecret = secretInput.value.toUpperCase().replace(/\s+/g, '');
+                const isValid = /^[A-Z2-7]+$/.test(rawSecret) && rawSecret.length >= 8;
+
+                if (!isValid) {
+                    secretError.classList.remove('hidden');
+                    formattedSecretDisplay.textContent = 'INVALID SECRET';
+                    uriDisplay.textContent = 'Fix secret key to generate URI';
+                    qrcodeContainer.innerHTML = '<span class="text-xs text-slate-500">Invalid Secret</span>';
+                    qrCodeInstance = null;
+                    return;
+                }
+
+                secretError.classList.add('hidden');
+                // Format secret in groups of 4 for readability
+                formattedSecretDisplay.textContent = rawSecret.match(/.{1,4}/g).join(' ');
+
+                const uri = buildOtpAuthUri();
+                uriDisplay.textContent = uri;
+
+                // Render QR Code
+                qrcodeContainer.innerHTML = '';
+                qrCodeInstance = new QRCode(qrcodeContainer, {
+                    text: uri,
+                    width: 176,
+                    height: 176,
+                    colorDark: '#0f172a',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+
+            /**
+             * Refresh the live TOTP code and countdown timer
+             */
+            async function updateLiveTOTP(force = false) {
+                const nowSeconds = Math.floor(Date.now() / 1000);
+                const timeStep = Math.floor(nowSeconds / PERIOD);
+                const remaining = PERIOD - (nowSeconds % PERIOD);
+
+                // Update countdown UI
+                countdownText.textContent = `${remaining}s`;
+                const circumference = 94.2477;
+                const offset = circumference - (remaining / PERIOD) * circumference;
+                progressRing.style.strokeDashoffset = offset;
+                progressBar.style.width = `${(remaining / PERIOD) * 100}%`;
+
+                // Color shift when < 5 seconds remain
+                if (remaining <= 5) {
+                    progressRing.style.stroke = '#f43f5e';
+                    progressBar.classList.remove('bg-indigo-500');
+                    progressBar.classList.add('bg-rose-500');
+                } else {
+                    progressRing.style.stroke = '#6366f1';
+                    progressBar.classList.remove('bg-rose-500');
+                    progressBar.classList.add('bg-indigo-500');
+                }
+
+                // Recalculate TOTP if time step changed or forced
+                if (timeStep !== lastTimeStep || force) {
+                    lastTimeStep = timeStep;
+                    const code = await generateTOTP(secretInput.value, timeStep);
+                    if (code) {
+                        currentTotp = code;
+                        totpDisplay.textContent = `${code.slice(0, 3)} ${code.slice(3)}`;
+                    } else {
+                        currentTotp = '';
+                        totpDisplay.textContent = '------';
+                    }
+                    // Re-verify if user has typed a 6-digit test code
+                    if (verifyInput.value.length === 6) {
+                        verifyUserCode();
+                    }
+                }
+            }
+
+            /**
+             * Verify user-entered 6-digit code with ±1 time-step tolerance
+             */
+            async function verifyUserCode() {
+                const inputCode = verifyInput.value.replace(/\D/g, '');
+                if (inputCode.length !== 6) {
+                    verifyStatus.classList.add('hidden');
+                    return;
+                }
+
+                const nowStep = Math.floor(Date.now() / 1000 / PERIOD);
+                const stepsToCheck = [nowStep, nowStep - 1, nowStep + 1];
+                let isValid = false;
+
+                for (const step of stepsToCheck) {
+                    const expected = await generateTOTP(secretInput.value, step);
+                    if (expected === inputCode) {
+                        isValid = true;
+                        break;
+                    }
+                }
+
+                verifyStatus.classList.remove('hidden', 'bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-400', 'bg-rose-500/10', 'border-rose-500/30', 'text-rose-400');
+
+                if (isValid) {
+                    verifyStatus.classList.add('bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-400');
+                    verifyStatus.innerHTML = `
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Valid Code! Matches current secret.</span>
+                    `;
+                } else {
+                    verifyStatus.classList.add('bg-rose-500/10', 'border-rose-500/30', 'text-rose-400');
+                    verifyStatus.innerHTML = `
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Invalid Code. Does not match.</span>
+                    `;
+                }
+            }
+
+            // Event Listeners
+            generateSecretBtn.addEventListener('click', () => {
+                secretInput.value = generateRandomSecret(16);
+                updateSetupDisplays();
+                updateLiveTOTP(true);
+            });
+
+            [issuerInput, accountInput, secretInput].forEach(el => {
+                el.addEventListener('input', () => {
+                    updateSetupDisplays();
+                    updateLiveTOTP(true);
+                });
+            });
+
+            copySecretBtn.addEventListener('click', () => {
+                copyToClipboard(secretInput.value.toUpperCase().replace(/\s+/g, ''), 'Secret key');
+            });
+
+            copyFormattedSecretBtn.addEventListener('click', () => {
+                copyToClipboard(formattedSecretDisplay.textContent, 'Formatted secret');
+            });
+
+            copyUriBtn.addEventListener('click', () => {
+                copyToClipboard(uriDisplay.textContent, 'otpauth:// URI');
+            });
+
+            copyCodeBox.addEventListener('click', () => {
+                if (currentTotp) {
+                    copyToClipboard(currentTotp, 'TOTP code');
+                }
+            });
+
+            verifyInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+                verifyUserCode();
+            });
+
+            // Initialize App
+            window.addEventListener('DOMContentLoaded', () => {
+                secretInput.value = generateRandomSecret(16);
+                updateSetupDisplays();
+                updateLiveTOTP(true);
+                setInterval(() => updateLiveTOTP(false), 1000);
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -68,6 +68,15 @@
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
+        <!-- Admin Security Guard 2FA Status Button -->
+        <button id="admin-status-btn" type="button" aria-label="Admin 2FA Security" title="Admin 2FA Security Guard"
+          class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-teal-400">
+          <svg id="admin-lock-icon" class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+          <span id="admin-status-text" class="hidden sm:inline" data-i18n="adminLocked">Admin 2FA</span>
+        </button>
+
         <!-- Language Toggle (EN | ខ្មែរ) -->
         <button id="lang-toggle" type="button" aria-label="Toggle Language"
           class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold transition-colors">
@@ -663,13 +672,38 @@
           <p id="modal-factors" class="text-xs text-slate-700 dark:text-slate-300"></p>
         </div>
 
-        <!-- QI Investigation Form -->
+        <!-- QI Investigation Form (Protected by 2FA Security Guard) -->
         <div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
-          <h4 class="text-sm font-bold text-teal-700 dark:text-teal-400" data-i18n="modalQiTitle">QI Investigation &amp; CAPA</h4>
+          <!-- 2FA Security Guard Banner -->
+          <div id="admin-guard-banner" class="p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/80 text-amber-900 dark:text-amber-200">
+            <div class="flex items-center gap-2.5">
+              <span id="admin-banner-icon" class="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+              </span>
+              <div>
+                <p class="font-bold text-xs" id="admin-guard-title" data-i18n="adminGuardTitle">Security Guard: Status Modification Locked</p>
+                <p class="text-[11px] opacity-90" id="admin-guard-desc" data-i18n="adminGuardDesc">Only authorized admins with 2FA TOTP code can modify status or delete records.</p>
+              </div>
+            </div>
+            <button type="button" id="trigger-2fa-unlock-btn" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs shadow-xs transition-colors shrink-0 flex items-center justify-center gap-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+              </svg>
+              <span id="trigger-2fa-btn-text" data-i18n="unlock2faBtn">Unlock with 2FA</span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-bold text-teal-700 dark:text-teal-400" data-i18n="modalQiTitle">QI Investigation &amp; CAPA</h4>
+            <span id="admin-active-badge" class="hidden text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300"></span>
+          </div>
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label for="modal-status-select" class="block text-xs font-medium mb-1" data-i18n="modalStatusLabel">Investigation Status</label>
-              <select id="modal-status-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none">
+              <select id="modal-status-select" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed">
                 <option value="Submitted">Submitted</option>
                 <option value="Under Review">Under Review</option>
                 <option value="CAPA/RCA">CAPA/RCA</option>
@@ -679,14 +713,14 @@
             <div>
               <label for="modal-investigator" class="block text-xs font-medium mb-1" data-i18n="modalInvestigatorLabel">Assigned Investigator</label>
               <input type="text" id="modal-investigator" placeholder="e.g., QI Focal Person"
-                class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none" />
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed" />
             </div>
           </div>
           <div>
             <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
               <label for="modal-rca" class="block text-xs font-medium" data-i18n="modalRcaLabel">Root Cause Analysis (RCA) &amp; CAPA Notes</label>
               <!-- Voice Dictation Button -->
-              <button type="button" data-dictate-target="modal-rca"
+              <button type="button" data-dictate-target="modal-rca" id="modal-rca-dictate-btn"
                 class="dictate-trigger-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all cursor-pointer">
                 <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
@@ -727,16 +761,32 @@
             </div>
 
             <textarea id="modal-rca" rows="3" placeholder="Document root cause findings and corrective/preventive actions..."
-              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none"></textarea>
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed"></textarea>
           </div>
         </div>
       </div>
 
-      <div class="px-5 py-3.5 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2 bg-slate-50 dark:bg-slate-900">
-        <button type="button" id="cancel-modal-btn" data-i18n="cancelBtn" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">Cancel</button>
-        <button type="button" id="save-modal-btn" data-i18n="saveBtn" class="px-5 py-2 rounded-xl text-sm font-semibold bg-teal-600 hover:bg-teal-700 text-white shadow-sm">Save Updates</button>
+      <!-- Detail Modal Footer -->
+      <div class="px-5 py-3.5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 bg-slate-50 dark:bg-slate-900">
+        <div>
+          <button type="button" id="delete-entry-btn" class="hidden px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 transition-colors flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+            </svg>
+            <span data-i18n="deleteEntryBtn">Delete Entry</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" id="cancel-modal-btn" data-i18n="cancelBtn" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">Cancel</button>
+          <button type="button" id="save-modal-btn" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-teal-600 hover:bg-teal-700 text-white shadow-sm transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+            <span id="save-btn-icon">💾</span>
+            <span data-i18n="saveBtn" id="save-btn-text">Save Updates</span>
+          </button>
+        </div>
       </div>
     </div>
+  </div>
+
   <!-- ==================== SUBMISSION CONFIRMATION MODAL ==================== -->
   <div id="submit-confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
@@ -830,14 +880,84 @@
     </div>
   </div>
 
-  <!-- ==================== CONFIRMATION MODAL (No alert/confirm) ==================== -->
+  <!-- ==================== 2FA TOTP SECURITY GUARD MODAL ==================== -->
+  <div id="totp-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 w-full max-w-md p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-200/80 dark:border-teal-800/80 flex items-center justify-center shrink-0 shadow-inner">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-slate-100" data-i18n="totpModalTitle">Admin 2FA Authorization</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="totpModalSubtitle">RFC 6238 TOTP (Base32: RADSAFECAMBODIA)</p>
+          </div>
+        </div>
+        <button type="button" id="close-totp-modal-btn" class="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Select Admin Account -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2" data-i18n="totpSelectAdmin">
+          Select Authorized Admin Profile
+        </label>
+        <div class="space-y-1.5" id="admin-user-chips"></div>
+      </div>
+
+      <!-- TOTP Code Input -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label for="totp-code-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300" data-i18n="totpEnterCode">
+            Enter 6-Digit Code from 2FA App
+          </label>
+          <span id="totp-timer-pill" class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+            ⏳ 30s
+          </span>
+        </div>
+        <div class="relative">
+          <input type="text" id="totp-code-input" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="one-time-code"
+            class="w-full text-center tracking-[0.35em] text-2xl font-mono font-bold py-3 px-4 rounded-2xl border-2 border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/20 outline-none transition-all placeholder:text-slate-400" />
+        </div>
+        <!-- Status / Error message -->
+        <p id="totp-error-msg" class="hidden text-xs text-rose-500 font-medium mt-1.5 flex items-center gap-1">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+          <span id="totp-error-text">Invalid 2FA code. Please check your authenticator app.</span>
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+        <button type="button" id="cancel-totp-btn" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer" data-i18n="cancelBtn">
+          Cancel
+        </button>
+        <button type="button" id="verify-totp-btn" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-md shadow-teal-600/20 transition-all flex items-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span data-i18n="totpVerifyBtn">Verify &amp; Unlock</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CONFIRMATION MODAL (Reusable) ==================== -->
   <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
     <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 w-full max-w-sm p-5 shadow-2xl space-y-4">
-      <h3 class="text-base font-bold" data-i18n="confirmTitle">Clear All Reports?</h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="confirmDesc">This will permanently delete all sample and submitted reports from this browser's storage. This action cannot be undone.</p>
+      <h3 class="text-base font-bold" data-i18n="confirmTitle" id="confirm-title">Clear All Reports?</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="confirmDesc" id="confirm-desc">This will permanently delete all sample and submitted reports from this browser's storage. This action cannot be undone.</p>
       <div class="flex justify-end gap-2">
-        <button type="button" id="confirm-cancel-btn" data-i18n="cancelBtn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">Cancel</button>
-        <button type="button" id="confirm-ok-btn" data-i18n="confirmOkBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white">Yes, Clear All</button>
+        <button type="button" id="confirm-cancel-btn" data-i18n="cancelBtn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">Cancel</button>
+        <button type="button" id="confirm-ok-btn" data-i18n="confirmOkBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white cursor-pointer">Yes, Clear All</button>
       </div>
     </div>
   </div>
@@ -970,7 +1090,25 @@
           catCritical: 'Critical Finding Delay',
           catFall: 'Patient Fall / Transfer',
           catMedication: 'Medication / Sedation Error',
-          catOther: 'Other'
+          catOther: 'Other',
+          adminLocked: 'Admin 2FA',
+          adminUnlocked: 'Admin',
+          adminGuardTitle: 'Security Guard: Status Modification Locked',
+          adminGuardDesc: 'Only authorized admins with 2FA TOTP code can modify status or delete records.',
+          unlock2faBtn: 'Unlock with 2FA',
+          lockAdminBtn: 'Lock Admin',
+          totpModalTitle: 'Admin 2FA Authorization',
+          totpModalSubtitle: 'RFC 6238 TOTP (Secret: RADS AFEC AMBO DIA)',
+          totpSelectAdmin: 'Select Authorized Admin Profile',
+          totpEnterCode: 'Enter 6-Digit Code from 2FA App',
+          totpVerifyBtn: 'Verify & Unlock',
+          deleteEntryBtn: 'Delete Entry',
+          deleteConfirmTitle: 'Delete Incident Report?',
+          deleteConfirmDesc: 'Are you sure you want to permanently delete this report? This action cannot be undone.',
+          deleteConfirmOk: 'Yes, Delete Report',
+          adminUnlockedToast: 'Admin unlocked for ',
+          adminLockedToast: 'Admin session locked.',
+          unauthorizedNotice: 'Admin 2FA authentication required.'
         },
         km: {
           appTitle: 'RadSafe',
@@ -1090,7 +1228,25 @@
           catCritical: 'ការពន្យារពេលលទ្ធផលសង្គ្រោះបន្ទាន់ (Critical Finding Delay)',
           catFall: 'ការដួលរបស់អ្នកជំងឺ / ពេលផ្ទេរ (Patient Fall / Transfer)',
           catMedication: 'កំហុសថ្នាំពេទ្យ / ថ្នាំសន្លប់ (Medication / Sedation Error)',
-          catOther: 'ផ្សេងៗ (Other)'
+          catOther: 'ផ្សេងៗ (Other)',
+          adminLocked: 'សុវត្ថិភាព 2FA',
+          adminUnlocked: 'រដ្ឋបាល',
+          adminGuardTitle: 'ប្រព័ន្ធសុវត្ថិភាព៖ ការកែប្រែស្ថានភាពត្រូវបានចាក់សោ',
+          adminGuardDesc: 'មានតែរដ្ឋបាលដែលមានកូដ 2FA TOTP ប៉ុណ្ណោះដែលអាចកែប្រែស្ថានភាព ឬលុបកំណត់ត្រាបាន។',
+          unlock2faBtn: 'ដោះសោដោយ 2FA',
+          lockAdminBtn: 'ចាក់សោឡើងវិញ',
+          totpModalTitle: 'ការផ្ទៀងផ្ទាត់សុវត្ថិភាព 2FA រដ្ឋបាល',
+          totpModalSubtitle: 'RFC 6238 TOTP (កូដសម្ងាត់៖ RADS AFEC AMBO DIA)',
+          totpSelectAdmin: 'ជ្រើសរើសគណនីរដ្ឋបាលដែលមានសិទ្ធិ',
+          totpEnterCode: 'បញ្ចូលលេខកូដ ៦ ខ្ទង់ពីកម្មវិធី 2FA',
+          totpVerifyBtn: 'ផ្ទៀងផ្ទាត់ និងដោះសោ',
+          deleteEntryBtn: 'លុបរបាយការណ៍នេះ',
+          deleteConfirmTitle: 'លុបរបាយការណ៍ឧប្បត្តិហេតុនេះ?',
+          deleteConfirmDesc: 'តើអ្នកប្រាកដជាចង់លុបរបាយការណ៍នេះជាអចិន្ត្រៃយ៍ឬ? មិនអាចត្រឡប់វិញបានទេ។',
+          deleteConfirmOk: 'បាទ/ចាស លុបរបាយការណ៍',
+          adminUnlockedToast: 'បានដោះសោសិទ្ធិរដ្ឋបាលដោយជោគជ័យសម្រាប់ ',
+          adminLockedToast: 'បានចាក់សោសិទ្ធិរដ្ឋបាលឡើងវិញ។',
+          unauthorizedNotice: 'សូមដោះសោដោយលេខកូដ 2FA TOTP ជាមុនសិន។'
         }
       };
 
@@ -1112,6 +1268,7 @@
         if (anonToggleEl && reporterNameEl && anonToggleEl.checked) {
           reporterNameEl.placeholder = dict.anonPlaceholder || 'Anonymous (Identity Protected)';
         }
+        if (typeof updateAdminUI === 'function') updateAdminUI();
       }
 
       document.getElementById('lang-toggle').addEventListener('click', () => {
@@ -1632,6 +1789,361 @@
         renderRegister();
       });
 
+      // ==================== ADMIN 2FA SECURITY GUARD (RFC 6238 TOTP) ====================
+      const TOTP_SECRET_BASE32 = 'RADSAFECAMBODIA';
+      const TOTP_PERIOD = 30;
+      const ADMIN_SESSION_KEY = 'radsafe_admin_session_v1';
+
+      const AUTHORIZED_ADMINS = [
+        { email: 'songan@yahoo.com', name: 'Dr. Song An', role: 'Chief Radiologist / QI Lead' },
+        { email: 'phoeun.s@calmette.gov.kh', name: 'Dr. Phoeun S.', role: 'Quality Improvement Officer' },
+        { email: 'por.s@calmette.gov.kh', name: 'Dr. Por S.', role: 'Radiology Safety Supervisor' },
+        { email: 'l.s.vathana@gmail.com', name: 'Lay Sovann Vathana', role: 'Radiology QI Administrator' }
+      ];
+
+      let activeAdminSession = null;
+      let selectedAdminEmail = AUTHORIZED_ADMINS[3].email; // default to Lay Sovann Vathana
+      let totpIntervalTimer = null;
+      let pendingConfirmAction = null; // 'clear-all' | 'delete-single' | null
+
+      function base32ToBytes(base32) {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+        const cleaned = base32.toUpperCase().replace(/[\s=]/g, '');
+        if (!cleaned || !/^[A-Z2-7]+$/.test(cleaned)) return null;
+        let bits = 0;
+        let value = 0;
+        const output = [];
+        for (let i = 0; i < cleaned.length; i++) {
+          const idx = alphabet.indexOf(cleaned[i]);
+          if (idx === -1) return null;
+          value = (value << 5) | idx;
+          bits += 5;
+          if (bits >= 8) {
+            output.push((value >>> (bits - 8)) & 0xff);
+            bits -= 8;
+          }
+        }
+        return new Uint8Array(output);
+      }
+
+      async function generateTOTPCode(counter, secretBytes) {
+        const counterBuffer = new ArrayBuffer(8);
+        const view = new DataView(counterBuffer);
+        const high = Math.floor(counter / 0x100000000);
+        const low = counter >>> 0;
+        view.setUint32(0, high, false);
+        view.setUint32(4, low, false);
+
+        try {
+          const cryptoKey = await window.crypto.subtle.importKey(
+            'raw',
+            secretBytes,
+            { name: 'HMAC', hash: 'SHA-1' },
+            false,
+            ['sign']
+          );
+          const signature = await window.crypto.subtle.sign('HMAC', cryptoKey, counterBuffer);
+          const hmac = new Uint8Array(signature);
+          const offset = hmac[hmac.length - 1] & 0x0f;
+          const binary =
+            ((hmac[offset] & 0x7f) << 24) |
+            ((hmac[offset + 1] & 0xff) << 16) |
+            ((hmac[offset + 2] & 0xff) << 8) |
+            (hmac[offset + 3] & 0xff);
+          const otp = binary % 1000000;
+          return otp.toString().padStart(6, '0');
+        } catch (e) {
+          console.error('TOTP error:', e);
+          return null;
+        }
+      }
+
+      async function verifyTOTP(inputCode) {
+        const clean = String(inputCode || '').replace(/\D/g, '').trim();
+        if (clean.length !== 6) return false;
+        const secretBytes = base32ToBytes(TOTP_SECRET_BASE32);
+        if (!secretBytes || secretBytes.length === 0) return false;
+
+        const nowSeconds = Math.floor(Date.now() / 1000);
+        const currentStep = Math.floor(nowSeconds / TOTP_PERIOD);
+        const stepsToCheck = [currentStep, currentStep - 1, currentStep + 1];
+
+        for (const step of stepsToCheck) {
+          const expected = await generateTOTPCode(step, secretBytes);
+          if (expected === clean) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function is2FaUnlocked() {
+        return !!activeAdminSession && !!activeAdminSession.email;
+      }
+
+      function loadAdminSession() {
+        try {
+          const raw = sessionStorage.getItem(ADMIN_SESSION_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.email && AUTHORIZED_ADMINS.some(a => a.email === parsed.email)) {
+              activeAdminSession = parsed;
+              selectedAdminEmail = parsed.email;
+            }
+          }
+        } catch (e) {
+          activeAdminSession = null;
+        }
+      }
+
+      function lockAdminSession() {
+        activeAdminSession = null;
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        updateAdminUI();
+        const dict = I18N[currentLang] || I18N.en;
+        showToast(dict.adminLockedToast || 'Admin session locked.');
+      }
+
+      function updateAdminUI() {
+        const dict = I18N[currentLang] || I18N.en;
+        const unlocked = is2FaUnlocked();
+
+        // 1. Header Admin Button
+        const headerBtn = document.getElementById('admin-status-btn');
+        const lockIcon = document.getElementById('admin-lock-icon');
+        const statusText = document.getElementById('admin-status-text');
+        if (headerBtn && lockIcon && statusText) {
+          if (unlocked) {
+            headerBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            headerBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-300', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300');
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />';
+            lockIcon.classList.remove('text-amber-500');
+            lockIcon.classList.add('text-emerald-500');
+            const firstName = activeAdminSession.name ? activeAdminSession.name.split(' ')[0] : 'Admin';
+            statusText.textContent = `${firstName} 🔓`;
+            headerBtn.title = `Admin Active: ${activeAdminSession.name} (${activeAdminSession.email}). Click to lock.`;
+          } else {
+            headerBtn.classList.remove('bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-300', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300');
+            headerBtn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />';
+            lockIcon.classList.remove('text-emerald-500');
+            lockIcon.classList.add('text-amber-500');
+            statusText.textContent = dict.adminLocked || 'Admin 2FA';
+            headerBtn.title = 'Admin 2FA Security Guard. Click to authenticate.';
+          }
+        }
+
+        // 2. Form Inputs in Detail Modal
+        const statusSelect = document.getElementById('modal-status-select');
+        const investigatorInput = document.getElementById('modal-investigator');
+        const rcaInput = document.getElementById('modal-rca');
+        const dictateBtn = document.getElementById('modal-rca-dictate-btn');
+        const deleteEntryBtn = document.getElementById('delete-entry-btn');
+
+        if (statusSelect) statusSelect.disabled = !unlocked;
+        if (investigatorInput) investigatorInput.disabled = !unlocked;
+        if (rcaInput) rcaInput.disabled = !unlocked;
+        if (dictateBtn) {
+          dictateBtn.disabled = !unlocked;
+          dictateBtn.classList.toggle('opacity-50', !unlocked);
+          dictateBtn.classList.toggle('cursor-not-allowed', !unlocked);
+        }
+        if (deleteEntryBtn) {
+          deleteEntryBtn.classList.toggle('hidden', !unlocked);
+        }
+
+        // 3. Banner in Detail Modal
+        const banner = document.getElementById('admin-guard-banner');
+        const bannerTitle = document.getElementById('admin-guard-title');
+        const bannerDesc = document.getElementById('admin-guard-desc');
+        const bannerIcon = document.getElementById('admin-banner-icon');
+        const triggerBtnText = document.getElementById('trigger-2fa-btn-text');
+        const activeBadge = document.getElementById('admin-active-badge');
+
+        if (banner && bannerTitle && bannerDesc && triggerBtnText) {
+          if (unlocked) {
+            banner.classList.remove('bg-amber-50', 'dark:bg-amber-950/40', 'border-amber-200', 'dark:border-amber-800/80', 'text-amber-900', 'dark:text-amber-200');
+            banner.classList.add('bg-emerald-50', 'dark:bg-emerald-950/40', 'border-emerald-300', 'dark:border-emerald-800/80', 'text-emerald-900', 'dark:text-emerald-200');
+            if (bannerIcon) {
+              bannerIcon.classList.remove('bg-amber-100', 'dark:bg-amber-900/60', 'text-amber-700', 'dark:text-amber-300');
+              bannerIcon.classList.add('bg-emerald-100', 'dark:bg-emerald-900/60', 'text-emerald-700', 'dark:text-emerald-300');
+              bannerIcon.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+            }
+            bannerTitle.textContent = currentLang === 'km'
+              ? `សិទ្ធិរដ្ឋបាលកំពុងដំណើរការ៖ ${activeAdminSession.name}`
+              : `Admin Session Active: ${activeAdminSession.name}`;
+            bannerDesc.textContent = `${activeAdminSession.email} • ${activeAdminSession.role}`;
+            triggerBtnText.textContent = dict.lockAdminBtn || 'Lock Admin';
+            if (activeBadge) {
+              activeBadge.classList.remove('hidden');
+              activeBadge.textContent = `✓ ${activeAdminSession.email}`;
+            }
+          } else {
+            banner.classList.remove('bg-emerald-50', 'dark:bg-emerald-950/40', 'border-emerald-300', 'dark:border-emerald-800/80', 'text-emerald-900', 'dark:text-emerald-200');
+            banner.classList.add('bg-amber-50', 'dark:bg-amber-950/40', 'border-amber-200', 'dark:border-amber-800/80', 'text-amber-900', 'dark:text-amber-200');
+            if (bannerIcon) {
+              bannerIcon.classList.remove('bg-emerald-100', 'dark:bg-emerald-900/60', 'text-emerald-700', 'dark:text-emerald-300');
+              bannerIcon.classList.add('bg-amber-100', 'dark:bg-amber-900/60', 'text-amber-700', 'dark:text-amber-300');
+              bannerIcon.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>';
+            }
+            bannerTitle.textContent = dict.adminGuardTitle || 'Security Guard: Status Modification Locked';
+            bannerDesc.textContent = dict.adminGuardDesc || 'Only authorized admins with 2FA TOTP code can modify status or delete records.';
+            triggerBtnText.textContent = dict.unlock2faBtn || 'Unlock with 2FA';
+            if (activeBadge) {
+              activeBadge.classList.add('hidden');
+            }
+          }
+        }
+      }
+
+      // ---- TOTP Modal Helpers & Listeners ----
+      const totpModal = document.getElementById('totp-modal');
+      const totpCodeInput = document.getElementById('totp-code-input');
+      const totpErrorMsg = document.getElementById('totp-error-msg');
+      const totpTimerPill = document.getElementById('totp-timer-pill');
+      const adminChipsContainer = document.getElementById('admin-user-chips');
+      const verifyTotpBtn = document.getElementById('verify-totp-btn');
+      const closeTotpModalBtn = document.getElementById('close-totp-modal-btn');
+      const cancelTotpBtn = document.getElementById('cancel-totp-btn');
+      const adminStatusBtn = document.getElementById('admin-status-btn');
+      const trigger2faUnlockBtn = document.getElementById('trigger-2fa-unlock-btn');
+
+      function renderAdminChips() {
+        if (!adminChipsContainer) return;
+        adminChipsContainer.innerHTML = AUTHORIZED_ADMINS.map(admin => {
+          const isSelected = admin.email === selectedAdminEmail;
+          return `
+            <div data-email="${admin.email}" class="admin-chip-option p-2.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${isSelected ? 'border-teal-500 bg-teal-50/80 dark:bg-teal-950/40 text-teal-900 dark:text-teal-200 ring-2 ring-teal-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-300'}">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full ${isSelected ? 'bg-teal-500' : 'bg-slate-300 dark:bg-slate-700'} shrink-0"></span>
+                <div class="min-w-0">
+                  <p class="font-bold truncate text-xs">${admin.name}</p>
+                  <p class="font-mono text-[11px] opacity-80 truncate">${admin.email}</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-medium text-slate-400 shrink-0 ml-2">${admin.role.split('/')[0].trim()}</span>
+            </div>
+          `;
+        }).join('');
+
+        adminChipsContainer.querySelectorAll('.admin-chip-option').forEach(el => {
+          el.addEventListener('click', () => {
+            selectedAdminEmail = el.getAttribute('data-email');
+            renderAdminChips();
+            totpCodeInput.focus();
+          });
+        });
+      }
+
+      function updateTotpCountdown() {
+        const nowSec = Math.floor(Date.now() / 1000);
+        const remaining = TOTP_PERIOD - (nowSec % TOTP_PERIOD);
+        if (totpTimerPill) {
+          totpTimerPill.textContent = `⏳ ${remaining}s`;
+          if (remaining <= 5) {
+            totpTimerPill.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+            totpTimerPill.classList.add('bg-rose-100', 'dark:bg-rose-950/60', 'text-rose-600', 'dark:text-rose-300', 'animate-pulse');
+          } else {
+            totpTimerPill.classList.remove('bg-rose-100', 'dark:bg-rose-950/60', 'text-rose-600', 'dark:text-rose-300', 'animate-pulse');
+            totpTimerPill.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+          }
+        }
+      }
+
+      function openTotpModal() {
+        renderAdminChips();
+        totpCodeInput.value = '';
+        totpErrorMsg.classList.add('hidden');
+        totpCodeInput.classList.remove('border-rose-500', 'dark:border-rose-500');
+        totpModal.classList.remove('hidden');
+        totpModal.classList.add('flex');
+        updateTotpCountdown();
+        if (totpIntervalTimer) clearInterval(totpIntervalTimer);
+        totpIntervalTimer = setInterval(updateTotpCountdown, 1000);
+        setTimeout(() => totpCodeInput.focus(), 80);
+      }
+
+      function closeTotpModal() {
+        totpModal.classList.add('hidden');
+        totpModal.classList.remove('flex');
+        if (totpIntervalTimer) clearInterval(totpIntervalTimer);
+        totpIntervalTimer = null;
+      }
+
+      async function handleVerifyTotp() {
+        const rawCode = totpCodeInput.value.replace(/\D/g, '').trim();
+        if (rawCode.length !== 6) {
+          totpErrorMsg.classList.remove('hidden');
+          totpCodeInput.classList.add('border-rose-500');
+          return;
+        }
+
+        const isValid = await verifyTOTP(rawCode);
+        if (isValid) {
+          const adminProfile = AUTHORIZED_ADMINS.find(a => a.email === selectedAdminEmail) || AUTHORIZED_ADMINS[0];
+          activeAdminSession = {
+            email: adminProfile.email,
+            name: adminProfile.name,
+            role: adminProfile.role,
+            unlockedAt: Date.now()
+          };
+          sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(activeAdminSession));
+          closeTotpModal();
+          updateAdminUI();
+
+          const invField = document.getElementById('modal-investigator');
+          if (invField && !invField.value.trim()) {
+            invField.value = `${adminProfile.name} (${adminProfile.email})`;
+          }
+
+          const dict = I18N[currentLang] || I18N.en;
+          showToast(`${dict.adminUnlockedToast}${adminProfile.name} (${adminProfile.email})`);
+        } else {
+          totpErrorMsg.classList.remove('hidden');
+          totpCodeInput.classList.add('border-rose-500');
+          totpCodeInput.select();
+        }
+      }
+
+      if (closeTotpModalBtn) closeTotpModalBtn.addEventListener('click', closeTotpModal);
+      if (cancelTotpBtn) cancelTotpBtn.addEventListener('click', closeTotpModal);
+      if (verifyTotpBtn) verifyTotpBtn.addEventListener('click', handleVerifyTotp);
+
+      if (totpCodeInput) {
+        totpCodeInput.addEventListener('input', (e) => {
+          e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+          if (e.target.value.length === 6) {
+            handleVerifyTotp();
+          }
+        });
+        totpCodeInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleVerifyTotp();
+          }
+        });
+      }
+
+      if (adminStatusBtn) {
+        adminStatusBtn.addEventListener('click', () => {
+          if (is2FaUnlocked()) {
+            lockAdminSession();
+          } else {
+            openTotpModal();
+          }
+        });
+      }
+
+      if (trigger2faUnlockBtn) {
+        trigger2faUnlockBtn.addEventListener('click', () => {
+          if (is2FaUnlocked()) {
+            lockAdminSession();
+          } else {
+            openTotpModal();
+          }
+        });
+      }
+
       // ---- Detail Modal ----
       const modal = document.getElementById('detail-modal');
       function openModal(id) {
@@ -1671,6 +2183,8 @@
         document.getElementById('modal-investigator').value = r.investigator || '';
         document.getElementById('modal-rca').value = r.rca || '';
 
+        updateAdminUI();
+
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
@@ -1686,6 +2200,12 @@
       document.getElementById('cancel-modal-btn').addEventListener('click', closeModal);
 
       document.getElementById('save-modal-btn').addEventListener('click', () => {
+        if (!is2FaUnlocked()) {
+          const dict = I18N[currentLang] || I18N.en;
+          showToast(dict.unauthorizedNotice || 'Admin 2FA authentication required.', 'error');
+          openTotpModal();
+          return;
+        }
         const idx = reports.findIndex(r => r.id === currentModalId);
         if (idx === -1) return;
         reports[idx].status = document.getElementById('modal-status-select').value;
@@ -1694,26 +2214,81 @@
         saveReports();
         closeModal();
         renderRegister();
+        renderDashboard();
         showToast(`Updated ${reports[idx].id} investigation details.`);
       });
 
-      // ---- Clear Data Confirmation ----
+      // ---- Delete Entry Handler (Single Report) ----
+      const deleteEntryBtn = document.getElementById('delete-entry-btn');
+      if (deleteEntryBtn) {
+        deleteEntryBtn.addEventListener('click', () => {
+          if (!is2FaUnlocked()) {
+            const dict = I18N[currentLang] || I18N.en;
+            showToast(dict.unauthorizedNotice || 'Admin 2FA authentication required.', 'error');
+            openTotpModal();
+            return;
+          }
+          if (!currentModalId) return;
+          const targetReport = reports.find(r => r.id === currentModalId);
+          if (!targetReport) return;
+
+          const dict = I18N[currentLang] || I18N.en;
+          document.getElementById('confirm-title').textContent = `${dict.deleteConfirmTitle || 'Delete Incident Report?'} (${targetReport.id})`;
+          document.getElementById('confirm-desc').textContent = dict.deleteConfirmDesc || 'Are you sure you want to permanently delete this report? This action cannot be undone.';
+          document.getElementById('confirm-ok-btn').textContent = dict.deleteConfirmOk || 'Yes, Delete Report';
+
+          pendingConfirmAction = 'delete-single';
+          confirmModal.classList.remove('hidden');
+          confirmModal.classList.add('flex');
+        });
+      }
+
+      // ---- Clear Data Confirmation (All Reports) ----
       const confirmModal = document.getElementById('confirm-modal');
       document.getElementById('clear-sample-btn').addEventListener('click', () => {
+        if (!is2FaUnlocked()) {
+          const dict = I18N[currentLang] || I18N.en;
+          showToast(dict.unauthorizedNotice || 'Admin 2FA authentication required.', 'error');
+          openTotpModal();
+          return;
+        }
+        const dict = I18N[currentLang] || I18N.en;
+        document.getElementById('confirm-title').textContent = dict.confirmTitle || 'Clear All Reports?';
+        document.getElementById('confirm-desc').textContent = dict.confirmDesc || "This will permanently delete all sample and submitted reports from this browser's storage.";
+        document.getElementById('confirm-ok-btn').textContent = dict.confirmOkBtn || 'Yes, Clear All';
+
+        pendingConfirmAction = 'clear-all';
         confirmModal.classList.remove('hidden');
         confirmModal.classList.add('flex');
       });
+
       document.getElementById('confirm-cancel-btn').addEventListener('click', () => {
         confirmModal.classList.add('hidden');
         confirmModal.classList.remove('flex');
+        pendingConfirmAction = null;
       });
+
       document.getElementById('confirm-ok-btn').addEventListener('click', () => {
-        reports = [];
-        saveReports();
+        if (pendingConfirmAction === 'delete-single') {
+          if (currentModalId) {
+            const deletedId = currentModalId;
+            reports = reports.filter(r => r.id !== deletedId);
+            saveReports();
+            closeModal();
+            renderRegister();
+            renderDashboard();
+            showToast(`Report ${deletedId} permanently deleted.`);
+          }
+        } else {
+          reports = [];
+          saveReports();
+          renderRegister();
+          renderDashboard();
+          showToast('All reports cleared.');
+        }
         confirmModal.classList.add('hidden');
         confirmModal.classList.remove('flex');
-        renderRegister();
-        showToast('All reports cleared.');
+        pendingConfirmAction = null;
       });
 
       // ---- Export CSV ----
@@ -2093,10 +2668,12 @@
 
       // ---- Initialize ----
       initTheme();
+      loadAdminSession();
       const savedLang = localStorage.getItem(LANG_KEY) || 'en';
       applyLanguage(savedLang);
       setDefaultDateTime();
       loadReports();
+      updateAdminUI();
     })();
   </script>
 </body>
