@@ -1,0 +1,8 @@
+{
+  "name": "Radiology Safety & QI",
+  "description": "Radiology incident, near-miss reporting and quality improvement registry with Khmer speech dictation.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Radiology Safety & QI Reporting</title>
+  <meta name="description" content="Radiology incident, near-miss reporting and quality improvement registry with Khmer speech dictation." />
+  <meta property="og:title" content="Radiology Safety & QI Reporting" />
+  <meta property="og:description" content="Radiology incident, near-miss reporting and quality improvement registry with Khmer speech dictation." />
   <!-- Google Fonts: Inter & Noto Sans Khmer -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -243,13 +246,116 @@
         <!-- 5. Description & Contributing Factors -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm space-y-4">
           <div>
-            <label for="event-description" class="block text-sm font-semibold mb-2"><span data-i18n="q6Title">6. What Happened?</span> <span class="text-rose-500">*</span></label>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <label for="event-description" class="block text-sm font-semibold">
+                <span data-i18n="q6Title">6. What Happened?</span> <span class="text-rose-500">*</span>
+              </label>
+              <!-- Voice Dictation Toolbar -->
+              <div class="flex items-center gap-1.5">
+                <div class="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[11px]">
+                  <button type="button" data-dictate-lang-for="event-description" data-lang="km-KH" class="dictate-lang-btn px-2 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
+                  <button type="button" data-dictate-lang-for="event-description" data-lang="en-US" class="dictate-lang-btn px-2 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all">EN</button>
+                </div>
+                <button type="button" data-dictate-target="event-description"
+                  class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
+                  <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                  </svg>
+                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Listening Banner & Visualizer Container -->
+            <div id="dictate-banner-event-description" class="hidden mb-2.5 p-2.5 rounded-xl bg-teal-50/90 dark:bg-teal-950/50 border border-teal-200 dark:border-teal-800/80 shadow-xs">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span class="relative flex h-2.5 w-2.5 shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+                  </span>
+                  <!-- Voice level indicator bars -->
+                  <div class="voice-bars flex items-center gap-0.5 h-4 shrink-0">
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-3 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-4 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-teal-900 dark:text-teal-200 text-xs truncate dictate-status-label" data-i18n="dictateListening">
+                      Listening in Khmer (km-KH)... Speak now
+                    </p>
+                    <p class="text-[11px] text-teal-700 dark:text-teal-300 italic truncate dictate-live-transcript"></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" data-dictate-action="space" data-target="event-description" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="Add space" data-i18n="dictateAddSpace">Space</button>
+                  <button type="button" data-dictate-action="newline" data-target="event-description" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="New line" data-i18n="dictateAddLine">New line</button>
+                  <button type="button" data-dictate-stop="event-description" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[11px] shadow-xs cursor-pointer" data-i18n="dictateStop">
+                    Stop
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <textarea id="event-description" rows="4" required data-i18n-placeholder="descPlaceholder" placeholder="Describe the sequence of events objectively (avoid naming individuals if possible)..."
               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"></textarea>
           </div>
 
           <div>
-            <label for="event-action" class="block text-sm font-semibold mb-2"><span data-i18n="actionLabel">Immediate Action Taken</span> <span class="text-xs font-normal text-slate-400" data-i18n="optionalLabel">(Optional)</span></label>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <label for="event-action" class="block text-sm font-semibold">
+                <span data-i18n="actionLabel">Immediate Action Taken</span> <span class="text-xs font-normal text-slate-400" data-i18n="optionalLabel">(Optional)</span>
+              </label>
+              <div class="flex items-center gap-1.5">
+                <div class="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[11px]">
+                  <button type="button" data-dictate-lang-for="event-action" data-lang="km-KH" class="dictate-lang-btn px-2 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
+                  <button type="button" data-dictate-lang-for="event-action" data-lang="en-US" class="dictate-lang-btn px-2 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all">EN</button>
+                </div>
+                <button type="button" data-dictate-target="event-action"
+                  class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
+                  <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                  </svg>
+                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Listening Banner & Visualizer Container -->
+            <div id="dictate-banner-event-action" class="hidden mb-2.5 p-2.5 rounded-xl bg-teal-50/90 dark:bg-teal-950/50 border border-teal-200 dark:border-teal-800/80 shadow-xs">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span class="relative flex h-2.5 w-2.5 shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+                  </span>
+                  <!-- Voice level indicator bars -->
+                  <div class="voice-bars flex items-center gap-0.5 h-4 shrink-0">
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-3 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-4 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-2 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-teal-900 dark:text-teal-200 text-xs truncate dictate-status-label" data-i18n="dictateListening">
+                      Listening in Khmer (km-KH)... Speak now
+                    </p>
+                    <p class="text-[11px] text-teal-700 dark:text-teal-300 italic truncate dictate-live-transcript"></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" data-dictate-action="space" data-target="event-action" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="Add space" data-i18n="dictateAddSpace">Space</button>
+                  <button type="button" data-dictate-action="newline" data-target="event-action" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="New line" data-i18n="dictateAddLine">New line</button>
+                  <button type="button" data-dictate-stop="event-action" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[11px] shadow-xs cursor-pointer" data-i18n="dictateStop">
+                    Stop
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <textarea id="event-action" rows="2" data-i18n-placeholder="actionPlaceholder" placeholder="e.g., Stopped contrast infusion, applied cold compress, notified radiologist..."
               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"></textarea>
           </div>
@@ -470,7 +576,53 @@
             </div>
           </div>
           <div>
-            <label for="modal-rca" class="block text-xs font-medium mb-1" data-i18n="modalRcaLabel">Root Cause Analysis (RCA) &amp; CAPA Notes</label>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <label for="modal-rca" class="block text-xs font-medium" data-i18n="modalRcaLabel">Root Cause Analysis (RCA) &amp; CAPA Notes</label>
+              <div class="flex items-center gap-1">
+                <div class="inline-flex rounded border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[10px]">
+                  <button type="button" data-dictate-lang-for="modal-rca" data-lang="km-KH" class="dictate-lang-btn px-1.5 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
+                  <button type="button" data-dictate-lang-for="modal-rca" data-lang="en-US" class="dictate-lang-btn px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 transition-all">EN</button>
+                </div>
+                <button type="button" data-dictate-target="modal-rca"
+                  class="dictate-trigger-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all cursor-pointer">
+                  <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                  </svg>
+                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Listening Banner & Visualizer Container -->
+            <div id="dictate-banner-modal-rca" class="hidden mb-2 p-2 rounded-xl bg-teal-50/90 dark:bg-teal-950/50 border border-teal-200 dark:border-teal-800/80 shadow-xs">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="relative flex h-2 w-2 shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                  </span>
+                  <div class="voice-bars flex items-center gap-0.5 h-3 shrink-0">
+                    <span class="voice-bar w-0.5 h-1.5 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-2.5 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-1.5 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                    <span class="voice-bar w-0.5 h-3 bg-teal-600 dark:bg-teal-400 rounded-full transition-all duration-75"></span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-teal-900 dark:text-teal-200 text-[11px] truncate dictate-status-label" data-i18n="dictateListening">
+                      Listening in Khmer (km-KH)... Speak now
+                    </p>
+                    <p class="text-[10px] text-teal-700 dark:text-teal-300 italic truncate dictate-live-transcript"></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" data-dictate-action="space" data-target="modal-rca" class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[10px]" data-i18n="dictateAddSpace">Space</button>
+                  <button type="button" data-dictate-stop="modal-rca" class="px-2 py-0.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[10px] cursor-pointer" data-i18n="dictateStop">
+                    Stop
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <textarea id="modal-rca" rows="3" placeholder="Document root cause findings and corrective/preventive actions..."
               class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm outline-none"></textarea>
           </div>
@@ -579,7 +731,15 @@
           saveBtn: 'Save Updates',
           confirmTitle: 'Clear All Reports?',
           confirmDesc: "This will permanently delete all sample and submitted reports from this browser's storage. This action cannot be undone.",
-          confirmOkBtn: 'Yes, Clear All'
+          confirmOkBtn: 'Yes, Clear All',
+          dictateBtn: 'Khmer Dictation',
+          dictateStop: 'Stop',
+          dictateListening: 'Listening in Khmer (km-KH)... Speak now',
+          dictateListeningEn: 'Listening in English (en-US)... Speak now',
+          dictateAddSpace: 'Space',
+          dictateAddLine: 'New line',
+          dictateUnsupported: 'Speech recognition requires Google Chrome, Edge, Safari, or Android.',
+          dictateMicBlocked: 'Microphone access was denied. Please allow mic permissions in browser settings.'
         },
         km: {
           appTitle: 'សុវត្ថិភាព និងគុណភាពផ្នែកវិទ្យុសាស្ត្រ',
@@ -654,7 +814,15 @@
           saveBtn: 'រក្សាទុកការផ្លាស់ប្តូរ',
           confirmTitle: 'លុបរបាយការណ៍ទាំងអស់?',
           confirmDesc: 'សកម្មភាពនេះនឹងលុបរបាយការណ៍ទាំងអស់ជាអចិន្ត្រៃយ៍។ មិនអាចត្រឡប់វិញបានទេ។',
-          confirmOkBtn: 'បាទ/ចាស លុបទាំងអស់'
+          confirmOkBtn: 'បាទ/ចាស លុបទាំងអស់',
+          dictateBtn: 'និយាយជាសំឡេងខ្មែរ',
+          dictateStop: 'បញ្ឈប់',
+          dictateListening: 'កំពុងស្តាប់ជាភាសាខ្មែរ (km-KH)... សូមនិយាយ',
+          dictateListeningEn: 'កំពុងស្តាប់ជាភាសាអង់គ្លេស (en-US)... សូមនិយាយ',
+          dictateAddSpace: 'ដកឃ្លា',
+          dictateAddLine: 'ចុះបន្ទាត់',
+          dictateUnsupported: 'ការសម្គាល់សំឡេងភាសាខ្មែរ (km-KH) គាំទ្រលើ Google Chrome, Edge, Safari ឬ Android។',
+          dictateMicBlocked: 'ការអនុញ្ញាតមីក្រូហ្វូនត្រូវបានបដិសេធ។ សូមបើកការអនុញ្ញាតក្នុងកម្មវិធីរុករក។'
         }
       };
 
@@ -832,6 +1000,7 @@
       };
 
       function switchTab(tabName) {
+        if (typeof stopDictation === 'function') stopDictation(false);
         tabBtns.forEach(btn => {
           const active = btn.dataset.tab === tabName;
           if (active) {
@@ -940,6 +1109,7 @@
         showToast(`Report ${newReport.id} submitted successfully!`);
 
         // Reset Form
+        if (typeof stopDictation === 'function') stopDictation(false);
         e.target.reset();
         document.querySelectorAll('.class-card').forEach(c => c.classList.remove('border-teal-600', 'dark:border-teal-500', 'bg-teal-50/50', 'dark:bg-teal-950/30', 'ring-2', 'ring-teal-500/20'));
         document.querySelectorAll('.chip-btn, .sev-btn').forEach(b => {
@@ -1066,6 +1236,7 @@
       }
 
       function closeModal() {
+        if (typeof stopDictation === 'function') stopDictation(false);
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         currentModalId = null;
@@ -1167,6 +1338,288 @@
             </div>`;
         }).join('');
       }
+
+      // ==================== KHMER DICTATION MODULE ====================
+      const targetLanguages = {
+        'event-description': 'km-KH',
+        'event-action': 'km-KH',
+        'modal-rca': 'km-KH'
+      };
+
+      let activeRecognition = null;
+      let activeTargetId = null;
+      let isIntentionallyListening = false;
+      let audioStream = null;
+      let audioCtx = null;
+      let analyser = null;
+      let visualizerAnimId = null;
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      function stopDictation(notify = false) {
+        isIntentionallyListening = false;
+        if (visualizerAnimId) {
+          cancelAnimationFrame(visualizerAnimId);
+          visualizerAnimId = null;
+        }
+        if (audioStream) {
+          audioStream.getTracks().forEach(t => t.stop());
+          audioStream = null;
+        }
+        if (audioCtx && audioCtx.state !== 'closed') {
+          audioCtx.close().catch(() => {});
+          audioCtx = null;
+        }
+
+        if (activeTargetId) {
+          const banner = document.getElementById(`dictate-banner-${activeTargetId}`);
+          if (banner) banner.classList.add('hidden');
+
+          const btn = document.querySelector(`[data-dictate-target="${activeTargetId}"]`);
+          if (btn) {
+            btn.classList.remove('bg-rose-50', 'text-rose-700', 'border-rose-300', 'dark:bg-rose-950/60', 'dark:text-rose-300', 'dark:border-rose-800');
+            btn.classList.add('bg-teal-50', 'text-teal-700', 'border-teal-200', 'dark:bg-teal-950/60', 'dark:text-teal-300', 'dark:border-teal-800');
+            const icon = btn.querySelector('svg');
+            if (icon) icon.classList.remove('animate-pulse', 'text-rose-600');
+          }
+        }
+
+        if (activeRecognition) {
+          try {
+            activeRecognition.abort();
+          } catch (e) {}
+          activeRecognition = null;
+        }
+
+        activeTargetId = null;
+        if (notify) {
+          showToast(currentLang === 'km' ? 'បានបញ្ឈប់ការកត់សំឡេង' : 'Dictation stopped.');
+        }
+      }
+
+      function startAudioVisualizer(targetId) {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+          if (!isIntentionallyListening || activeTargetId !== targetId) {
+            stream.getTracks().forEach(t => t.stop());
+            return;
+          }
+          audioStream = stream;
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          audioCtx = new AudioContextClass();
+          const source = audioCtx.createMediaStreamSource(stream);
+          analyser = audioCtx.createAnalyser();
+          analyser.fftSize = 64;
+          source.connect(analyser);
+
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
+          const banner = document.getElementById(`dictate-banner-${targetId}`);
+          const bars = banner ? banner.querySelectorAll('.voice-bar') : [];
+
+          function updateBars() {
+            if (!isIntentionallyListening || activeTargetId !== targetId) return;
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            const avg = sum / dataArray.length;
+            const normalized = Math.min(Math.max(avg / 35, 0.4), 2.2);
+
+            bars.forEach((bar, idx) => {
+              const height = Math.min(18, Math.max(4, Math.round(5 * normalized * (0.8 + ((idx % 3) * 0.3)))));
+              bar.style.height = `${height}px`;
+            });
+            visualizerAnimId = requestAnimationFrame(updateBars);
+          }
+          updateBars();
+        }).catch(err => {
+          console.warn('Microphone audio context visualizer not available:', err);
+        });
+      }
+
+      function startDictation(targetId) {
+        if (!SpeechRecognition) {
+          const dict = I18N[currentLang] || I18N.en;
+          showToast(dict.dictateUnsupported, 'error');
+          return;
+        }
+
+        // If clicking same button while already running, toggle off
+        if (activeTargetId === targetId && isIntentionallyListening) {
+          stopDictation(true);
+          return;
+        }
+
+        // Stop any active session on another field
+        if (activeTargetId) {
+          stopDictation(false);
+        }
+
+        activeTargetId = targetId;
+        isIntentionallyListening = true;
+
+        const lang = targetLanguages[targetId] || 'km-KH';
+        const banner = document.getElementById(`dictate-banner-${targetId}`);
+        const statusLabel = banner ? banner.querySelector('.dictate-status-label') : null;
+        const livePreview = banner ? banner.querySelector('.dictate-live-transcript') : null;
+        const btn = document.querySelector(`[data-dictate-target="${targetId}"]`);
+        const textarea = document.getElementById(targetId);
+
+        if (banner) banner.classList.remove('hidden');
+        if (livePreview) {
+          livePreview.textContent = '';
+          livePreview.classList.remove('hidden');
+        }
+
+        if (statusLabel) {
+          const dict = I18N[currentLang] || I18N.en;
+          statusLabel.textContent = lang === 'km-KH' ? dict.dictateListening : dict.dictateListeningEn;
+        }
+
+        if (btn) {
+          btn.classList.remove('bg-teal-50', 'text-teal-700', 'border-teal-200', 'dark:bg-teal-950/60', 'dark:text-teal-300', 'dark:border-teal-800');
+          btn.classList.add('bg-rose-50', 'text-rose-700', 'border-rose-300', 'dark:bg-rose-950/60', 'dark:text-rose-300', 'dark:border-rose-800');
+          const icon = btn.querySelector('svg');
+          if (icon) icon.classList.add('animate-pulse', 'text-rose-600');
+        }
+
+        startAudioVisualizer(targetId);
+
+        try {
+          const recognition = new SpeechRecognition();
+          activeRecognition = recognition;
+          recognition.lang = lang;
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.maxAlternatives = 1;
+
+          recognition.onresult = (event) => {
+            let interimText = '';
+            let finalSnippet = '';
+
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+              const transcript = event.results[i][0].transcript;
+              if (event.results[i].isFinal) {
+                finalSnippet += transcript;
+              } else {
+                interimText += transcript;
+              }
+            }
+
+            if (livePreview) {
+              const prefix = currentLang === 'km' ? 'កំពុងបម្លែង៖ ' : 'Transcribing: ';
+              livePreview.textContent = interimText ? `${prefix}"${interimText}"` : '';
+            }
+
+            if (finalSnippet && textarea) {
+              const currentVal = textarea.value;
+              if (!currentVal) {
+                textarea.value = finalSnippet.trim();
+              } else {
+                const separator = ' ';
+                textarea.value = currentVal.trimEnd() + separator + finalSnippet.trim();
+              }
+              textarea.dispatchEvent(new Event('input', { bubbles: true }));
+              textarea.scrollTop = textarea.scrollHeight;
+            }
+          };
+
+          recognition.onerror = (event) => {
+            console.warn('Speech recognition error event:', event.error);
+            const dict = I18N[currentLang] || I18N.en;
+            if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+              showToast(dict.dictateMicBlocked, 'error');
+              stopDictation(false);
+            } else if (event.error === 'no-speech') {
+              // User was quiet, wait for speech
+            } else if (event.error === 'audio-capture') {
+              showToast(currentLang === 'km' ? 'មិនមានមីក្រូហ្វូនត្រូវបានរកឃើញទេ។' : 'No microphone was found.', 'error');
+              stopDictation(false);
+            }
+          };
+
+          recognition.onend = () => {
+            if (isIntentionallyListening && activeTargetId === targetId) {
+              try {
+                recognition.start();
+              } catch (e) {}
+            } else {
+              stopDictation(false);
+            }
+          };
+
+          recognition.start();
+          showToast(lang === 'km-KH'
+            ? 'កំពុងស្តាប់ជាភាសាខ្មែរ (km-KH)... សូមនិយាយ'
+            : 'Listening in English... Speak now');
+        } catch (err) {
+          console.error('Failed to initialize SpeechRecognition:', err);
+          stopDictation(false);
+          const dict = I18N[currentLang] || I18N.en;
+          showToast(dict.dictateUnsupported, 'error');
+        }
+      }
+
+      // Wire up Dictation Trigger Buttons
+      document.querySelectorAll('.dictate-trigger-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = btn.getAttribute('data-dictate-target');
+          startDictation(target);
+        });
+      });
+
+      // Wire up Stop Buttons
+      document.querySelectorAll('[data-dictate-stop]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          stopDictation(true);
+        });
+      });
+
+      // Language Switcher per field (Khmer km-KH vs English en-US)
+      document.querySelectorAll('.dictate-lang-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = btn.getAttribute('data-dictate-lang-for');
+          const lang = btn.getAttribute('data-lang');
+          targetLanguages[target] = lang;
+
+          document.querySelectorAll(`[data-dictate-lang-for="${target}"]`).forEach(b => {
+            if (b === btn) {
+              b.classList.add('bg-teal-600', 'text-white', 'font-bold', 'shadow-xs');
+              b.classList.remove('text-slate-600', 'dark:text-slate-300');
+            } else {
+              b.classList.remove('bg-teal-600', 'text-white', 'font-bold', 'shadow-xs');
+              b.classList.add('text-slate-600', 'dark:text-slate-300');
+            }
+          });
+
+          if (activeTargetId === target && isIntentionallyListening) {
+            stopDictation(false);
+            startDictation(target);
+          }
+        });
+      });
+
+      // Quick helper buttons (Space, Newline)
+      document.querySelectorAll('[data-dictate-action]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const action = btn.getAttribute('data-dictate-action');
+          const target = btn.getAttribute('data-target');
+          const textarea = document.getElementById(target);
+          if (!textarea) return;
+
+          if (action === 'space') {
+            textarea.value = (textarea.value || '') + ' ';
+          } else if (action === 'newline') {
+            textarea.value = (textarea.value || '') + '\n';
+          }
+          textarea.dispatchEvent(new Event('input', { bubbles: true }));
+          textarea.focus();
+        });
+      });
 
       // ---- Initialize ----
       initTheme();
