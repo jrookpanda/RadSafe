@@ -1,5 +1,12 @@
 {
   "name": "radsafe",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve . -l 4173"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
 }
