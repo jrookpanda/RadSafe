@@ -1,0 +1,25 @@
+{
+  "name": "radsafe",
+  "version": "1.0.0",
+  "description": "RadSafe - A radiology incident and accident reporting system for quality improvement and patient safety.",
+  "main": "index.html",
+  "homepage": "https://jrookpanda.github.io/RadSafe",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve .",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "radiology",
+    "patient-safety",
+    "incident-reporting",
+    "quality-improvement",
+    "healthcare",
+    "radsafe"
+  ],
+  "author": "Sovann Vathana Lay",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
