@@ -208,18 +208,18 @@
             <label for="event-category" class="block text-sm font-semibold mb-2"><span data-i18n="q4Title">4. Radiology Incident Category</span> <span class="text-rose-500">*</span></label>
             <select id="event-category" required
               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none">
-              <option value="" disabled selected>Select incident category...</option>
-              <option value="Contrast Reaction / Extravasation">Contrast Reaction / Extravasation</option>
-              <option value="Radiation Safety / ALARA / Pregnancy Screening">Radiation Safety / ALARA / Pregnancy Screening</option>
-              <option value="MRI Safety (Screening/Projectile)">MRI Safety (Screening / Projectile)</option>
-              <option value="Interventional / Procedural Complication">Interventional / Procedural Complication</option>
-              <option value="Patient ID / Wrong Site/Side">Patient ID / Wrong Site / Side</option>
-              <option value="Equipment Failure / Malfunction">Equipment Failure / Malfunction</option>
-              <option value="Needlestick / Sharps / Exposure (PEP)">Needlestick / Sharps / Exposure (PEP)</option>
-              <option value="Critical Finding Delay">Critical Finding Delay</option>
-              <option value="Patient Fall / Transfer">Patient Fall / Transfer</option>
-              <option value="Medication / Sedation Error">Medication / Sedation Error</option>
-              <option value="Other">Other</option>
+              <option value="" disabled selected data-i18n="selectCategoryPlaceholder">Select incident category...</option>
+              <option value="Contrast Reaction / Extravasation" data-i18n="catContrast">Contrast Reaction / Extravasation</option>
+              <option value="Radiation Safety / ALARA / Pregnancy Screening" data-i18n="catRadiation">Radiation Safety / ALARA / Pregnancy Screening</option>
+              <option value="MRI Safety (Screening/Projectile)" data-i18n="catMri">MRI Safety (Screening / Projectile)</option>
+              <option value="Interventional / Procedural Complication" data-i18n="catInterventional">Interventional / Procedural Complication</option>
+              <option value="Patient ID / Wrong Site/Side" data-i18n="catPatientId">Patient ID / Wrong Site / Side</option>
+              <option value="Equipment Failure / Malfunction" data-i18n="catEquipment">Equipment Failure / Malfunction</option>
+              <option value="Needlestick / Sharps / Exposure (PEP)" data-i18n="catNeedlestick">Needlestick / Sharps / Exposure (PEP)</option>
+              <option value="Critical Finding Delay" data-i18n="catCritical">Critical Finding Delay</option>
+              <option value="Patient Fall / Transfer" data-i18n="catFall">Patient Fall / Transfer</option>
+              <option value="Medication / Sedation Error" data-i18n="catMedication">Medication / Sedation Error</option>
+              <option value="Other" data-i18n="catOther">Other</option>
             </select>
           </div>
 
@@ -439,23 +439,27 @@
     <section id="tab-register" class="hidden space-y-4">
       <!-- Toolbar: Search, Filters, Actions -->
       <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm space-y-3">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <div class="relative flex-1">
-            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <!-- Row 1: Search Button + Status Dropdown + Modality Dropdown in One Line -->
+        <div class="flex items-center gap-2">
+          <!-- Compact Search Toggle Button -->
+          <button type="button" id="toggle-search-btn" aria-label="Toggle Search" title="Search reports"
+            class="relative p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-teal-600 hover:border-teal-400 dark:hover:text-teal-300 transition-colors shrink-0 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
-            <input type="text" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="Search ID, category, description..."
-              class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-teal-500 outline-none" />
-          </div>
-          <div class="flex gap-2">
-            <select id="filter-status" class="px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm outline-none">
+            <span id="search-active-dot" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-teal-500"></span>
+          </button>
+
+          <!-- Status and Modalities in One Line -->
+          <div class="grid grid-cols-2 gap-2 flex-1 min-w-0">
+            <select id="filter-status" class="w-full px-2.5 sm:px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm font-medium outline-none truncate">
               <option value="All" data-i18n="allStatuses">All Statuses</option>
               <option value="Submitted">Submitted</option>
               <option value="Under Review">Under Review</option>
               <option value="CAPA/RCA">CAPA/RCA</option>
               <option value="Closed">Closed</option>
             </select>
-            <select id="filter-modality" class="px-3 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm outline-none">
+            <select id="filter-modality" class="w-full px-2.5 sm:px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm font-medium outline-none truncate">
               <option value="All" data-i18n="allModalities">All Modalities</option>
               <option value="CT Scan">CT Scan</option>
               <option value="MRI">MRI</option>
@@ -469,31 +473,44 @@
           </div>
         </div>
 
-        <!-- Date Range Filter Row -->
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5 shrink-0">
+        <!-- Expandable Search Input (revealed only upon clicking search button) -->
+        <div id="search-container" class="hidden">
+          <div class="relative flex items-center">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input type="text" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="Search ID, category, description..."
+              class="w-full pl-9 pr-8 py-2 rounded-xl border border-teal-300 dark:border-teal-700 bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm focus:ring-2 focus:ring-teal-500 outline-none" />
+            <button type="button" id="close-search-btn" title="Close and clear search" aria-label="Close search"
+              class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Date Range Filter Row (strictly single line) -->
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-1.5 flex-1 min-w-0">
+            <span class="font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1 text-[11px] sm:text-xs shrink-0">
               <svg class="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5" />
               </svg>
-              <span data-i18n="filterDateLabel">Date Range:</span>
+              <span class="hidden sm:inline" data-i18n="filterDateLabel">Date Range:</span>
             </span>
-            <div class="flex items-center gap-1">
-              <label for="filter-date-from" class="text-slate-400 text-[11px]" data-i18n="filterDateFrom">From</label>
-              <input type="date" id="filter-date-from"
-                class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
+            <div class="flex items-center gap-1 flex-1 min-w-0">
+              <input type="date" id="filter-date-from" aria-label="From Date" title="From Date"
+                class="w-full min-w-0 px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
+              <span class="text-slate-400 text-xs shrink-0">&ndash;</span>
+              <input type="date" id="filter-date-to" aria-label="To Date" title="To Date"
+                class="w-full min-w-0 px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
             </div>
-            <span class="text-slate-400 text-xs">&ndash;</span>
-            <div class="flex items-center gap-1">
-              <label for="filter-date-to" class="text-slate-400 text-[11px]" data-i18n="filterDateTo">To</label>
-              <input type="date" id="filter-date-to"
-                class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
-            </div>
-            <button type="button" id="clear-register-date-btn" class="hidden px-2 py-1 rounded text-[11px] font-medium text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900 border border-teal-200 dark:border-teal-800 transition-colors cursor-pointer" data-i18n="clearDateBtn">
-              ✕ Clear Date
+            <button type="button" id="clear-register-date-btn" class="hidden px-2 py-1 rounded text-[11px] font-medium text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900 border border-teal-200 dark:border-teal-800 transition-colors cursor-pointer shrink-0" data-i18n="clearDateBtn" title="Clear Date">
+              ✕
             </button>
           </div>
-          <span id="register-filter-summary" class="text-[11px] text-slate-400"></span>
+          <span id="register-filter-summary" class="text-[11px] text-slate-400 shrink-0 hidden md:inline-block"></span>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
@@ -520,8 +537,8 @@
 
     <!-- ==================== TAB 3: QI DASHBOARD ==================== -->
     <section id="tab-dashboard" class="hidden space-y-6">
-      <!-- Date Filter Bar for Dashboard -->
-      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <!-- Date Filter Bar for Dashboard (strictly single line inputs) -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 flex items-center justify-center shrink-0 border border-teal-100 dark:border-teal-900/50">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -533,20 +550,18 @@
             <p class="text-[11px] text-slate-500 dark:text-slate-400" data-i18n="dashFilterSubtitle">Filter metrics &amp; charts by incident occurrence date</p>
           </div>
         </div>
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <div class="flex items-center gap-1">
-            <label for="dash-date-from" class="text-slate-400 text-[11px]" data-i18n="filterDateFrom">From</label>
-            <input type="date" id="dash-date-from"
-              class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
+        <!-- Single-line From & To Date inputs -->
+        <div class="flex items-center gap-1.5 w-full md:w-auto">
+          <span class="text-slate-400 text-xs shrink-0 hidden sm:inline" data-i18n="filterDateLabel">Date Range:</span>
+          <div class="flex items-center gap-1 flex-1 md:flex-initial">
+            <input type="date" id="dash-date-from" aria-label="From Date" title="From Date"
+              class="w-full md:w-[135px] px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
+            <span class="text-slate-400 text-xs shrink-0">&ndash;</span>
+            <input type="date" id="dash-date-to" aria-label="To Date" title="To Date"
+              class="w-full md:w-[135px] px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
           </div>
-          <span class="text-slate-400 text-xs">&ndash;</span>
-          <div class="flex items-center gap-1">
-            <label for="dash-date-to" class="text-slate-400 text-[11px]" data-i18n="filterDateTo">To</label>
-            <input type="date" id="dash-date-to"
-              class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs outline-none focus:ring-1 focus:ring-teal-500" />
-          </div>
-          <button type="button" id="clear-dash-date-btn" class="hidden px-2 py-1 rounded text-[11px] font-medium text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900 border border-teal-200 dark:border-teal-800 transition-colors cursor-pointer" data-i18n="clearDateBtn">
-            ✕ Clear Date
+          <button type="button" id="clear-dash-date-btn" class="hidden px-2 py-1 rounded text-[11px] font-medium text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900 border border-teal-200 dark:border-teal-800 transition-colors cursor-pointer shrink-0" data-i18n="clearDateBtn" title="Clear Date">
+            ✕
           </button>
         </div>
       </div>
@@ -587,7 +602,7 @@
   </main>
 
   <!-- App Footer -->
-  <footer class="max-w-5xl mx-auto px-4 py-8 border-t border-slate-200/70 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
+  <footer class="max-w-5xl mx-auto px-4 py-8 border-t border-slate-200/70 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2">
     <p class="flex items-center justify-center gap-1.5 flex-wrap">
       <span>Dev:</span>
       <a href="https://scholar.google.com/citations?user=OtsiXFwAAAAJ&amp;hl=en&amp;authuser=1"
@@ -599,6 +614,12 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
         </svg>
       </a>
+    </p>
+    <p class="font-medium text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1.5" data-i18n="footerMadeIn">
+      Made in Cambodia 🇰🇭
+    </p>
+    <p class="text-[11px] text-slate-400 dark:text-slate-500" data-i18n="footerLatestEdition">
+      Latest Edition: November 10, 2026
     </p>
   </footer>
 
@@ -935,7 +956,21 @@
           filterDateTo: 'To',
           clearDateBtn: 'Clear Date',
           dashFilterTitle: 'Dashboard Date Filter',
-          dashFilterSubtitle: 'Filter metrics & charts by incident occurrence date'
+          dashFilterSubtitle: 'Filter metrics & charts by incident occurrence date',
+          footerMadeIn: 'Made in Cambodia 🇰🇭',
+          footerLatestEdition: 'Latest Edition: November 10, 2026',
+          selectCategoryPlaceholder: 'Select incident category...',
+          catContrast: 'Contrast Reaction / Extravasation',
+          catRadiation: 'Radiation Safety / ALARA / Pregnancy Screening',
+          catMri: 'MRI Safety (Screening / Projectile)',
+          catInterventional: 'Interventional / Procedural Complication',
+          catPatientId: 'Patient ID / Wrong Site / Side',
+          catEquipment: 'Equipment Failure / Malfunction',
+          catNeedlestick: 'Needlestick / Sharps / Exposure (PEP)',
+          catCritical: 'Critical Finding Delay',
+          catFall: 'Patient Fall / Transfer',
+          catMedication: 'Medication / Sedation Error',
+          catOther: 'Other'
         },
         km: {
           appTitle: 'RadSafe',
@@ -1041,7 +1076,21 @@
           filterDateTo: 'ដល់',
           clearDateBtn: 'សម្អាតកាលបរិច្ឆេទ',
           dashFilterTitle: 'តម្រងកាលបរិច្ឆេទផ្ទាំងទិន្នន័យ',
-          dashFilterSubtitle: 'ចម្រាញ់ទិន្នន័យ និងគំនូសតាងតាមកាលបរិច្ឆេទកើតហេតុ'
+          dashFilterSubtitle: 'ចម្រាញ់ទិន្នន័យ និងគំនូសតាងតាមកាលបរិច្ឆេទកើតហេតុ',
+          footerMadeIn: 'Made in Cambodia 🇰🇭',
+          footerLatestEdition: 'Latest Edition: November 10, 2026',
+          selectCategoryPlaceholder: 'ជ្រើសរើសប្រភេទឧប្បត្តិហេតុ...',
+          catContrast: 'ប្រតិកម្មថ្នាំពណ៌ / ការលេចធ្លាយថ្នាំ (Contrast Reaction / Extravasation)',
+          catRadiation: 'សុវត្ថិភាពវិទ្យុសកម្ម / ALARA / ពិនិត្យផ្ទៃពោះ (Radiation Safety)',
+          catMri: 'សុវត្ថិភាពម៉ាស៊ីន MRI / វត្ថុដែកឆក់ (MRI Safety)',
+          catInterventional: 'ផលវិបាកផ្នែកអន្តរាគមន៍ / នីតិវិធី (Interventional Complication)',
+          catPatientId: 'ខុសអត្តសញ្ញាណអ្នកជំងឺ / ខុសទីតាំង/ចំហៀង (Wrong ID / Site)',
+          catEquipment: 'ឧបករណ៍ខូច / ដំណើរការខុសប្រក្រតី (Equipment Failure)',
+          catNeedlestick: 'មុតម្ជុល / របស់ស្រួច / ប៉ះពាល់ឈាម (Needlestick / PEP)',
+          catCritical: 'ការពន្យារពេលលទ្ធផលសង្គ្រោះបន្ទាន់ (Critical Finding Delay)',
+          catFall: 'ការដួលរបស់អ្នកជំងឺ / ពេលផ្ទេរ (Patient Fall / Transfer)',
+          catMedication: 'កំហុសថ្នាំពេទ្យ / ថ្នាំសន្លប់ (Medication / Sedation Error)',
+          catOther: 'ផ្សេងៗ (Other)'
         }
       };
 
@@ -1535,7 +1584,44 @@
         });
       }
 
-      document.getElementById('search-input').addEventListener('input', renderRegister);
+      const toggleSearchBtn = document.getElementById('toggle-search-btn');
+      const searchContainer = document.getElementById('search-container');
+      const searchInput = document.getElementById('search-input');
+      const closeSearchBtn = document.getElementById('close-search-btn');
+      const searchActiveDot = document.getElementById('search-active-dot');
+
+      if (toggleSearchBtn && searchContainer && searchInput) {
+        toggleSearchBtn.addEventListener('click', () => {
+          const isHidden = searchContainer.classList.contains('hidden');
+          searchContainer.classList.toggle('hidden', !isHidden);
+          if (isHidden) {
+            searchInput.focus();
+            toggleSearchBtn.classList.add('border-teal-500', 'text-teal-600', 'dark:text-teal-400', 'bg-teal-50', 'dark:bg-teal-950/40');
+          } else {
+            toggleSearchBtn.classList.remove('border-teal-500', 'text-teal-600', 'dark:text-teal-400', 'bg-teal-50', 'dark:bg-teal-950/40');
+          }
+        });
+      }
+
+      if (closeSearchBtn && searchInput && searchContainer) {
+        closeSearchBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          searchContainer.classList.add('hidden');
+          if (searchActiveDot) searchActiveDot.classList.add('hidden');
+          if (toggleSearchBtn) toggleSearchBtn.classList.remove('border-teal-500', 'text-teal-600', 'dark:text-teal-400', 'bg-teal-50', 'dark:bg-teal-950/40');
+          renderRegister();
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          if (searchActiveDot) {
+            searchActiveDot.classList.toggle('hidden', !searchInput.value.trim());
+          }
+          renderRegister();
+        });
+      }
+
       document.getElementById('filter-status').addEventListener('change', renderRegister);
       document.getElementById('filter-modality').addEventListener('change', renderRegister);
       document.getElementById('filter-date-from').addEventListener('change', renderRegister);
