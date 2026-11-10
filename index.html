@@ -250,20 +250,14 @@
               <label for="event-description" class="block text-sm font-semibold">
                 <span data-i18n="q6Title">6. What Happened?</span> <span class="text-rose-500">*</span>
               </label>
-              <!-- Voice Dictation Toolbar -->
-              <div class="flex items-center gap-1.5">
-                <div class="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[11px]">
-                  <button type="button" data-dictate-lang-for="event-description" data-lang="km-KH" class="dictate-lang-btn px-2 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
-                  <button type="button" data-dictate-lang-for="event-description" data-lang="en-US" class="dictate-lang-btn px-2 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all">EN</button>
-                </div>
-                <button type="button" data-dictate-target="event-description"
-                  class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
-                  <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
-                  </svg>
-                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
-                </button>
-              </div>
+              <!-- Voice Dictation Button -->
+              <button type="button" data-dictate-target="event-description"
+                class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                </svg>
+                <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+              </button>
             </div>
 
             <!-- Listening Banner & Visualizer Container -->
@@ -290,6 +284,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" data-dictate-action="sample" data-target="event-description" class="px-2 py-1 rounded-lg bg-teal-100 dark:bg-teal-900/60 border border-teal-300 dark:border-teal-700 text-teal-800 dark:text-teal-200 text-[11px] font-medium hover:bg-teal-200 dark:hover:bg-teal-800 cursor-pointer" title="Insert sample Khmer text">📋 Sample</button>
                   <button type="button" data-dictate-action="space" data-target="event-description" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="Add space" data-i18n="dictateAddSpace">Space</button>
                   <button type="button" data-dictate-action="newline" data-target="event-description" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="New line" data-i18n="dictateAddLine">New line</button>
                   <button type="button" data-dictate-stop="event-description" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[11px] shadow-xs cursor-pointer" data-i18n="dictateStop">
@@ -308,19 +303,14 @@
               <label for="event-action" class="block text-sm font-semibold">
                 <span data-i18n="actionLabel">Immediate Action Taken</span> <span class="text-xs font-normal text-slate-400" data-i18n="optionalLabel">(Optional)</span>
               </label>
-              <div class="flex items-center gap-1.5">
-                <div class="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[11px]">
-                  <button type="button" data-dictate-lang-for="event-action" data-lang="km-KH" class="dictate-lang-btn px-2 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
-                  <button type="button" data-dictate-lang-for="event-action" data-lang="en-US" class="dictate-lang-btn px-2 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 transition-all">EN</button>
-                </div>
-                <button type="button" data-dictate-target="event-action"
-                  class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
-                  <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
-                  </svg>
-                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
-                </button>
-              </div>
+              <!-- Voice Dictation Button -->
+              <button type="button" data-dictate-target="event-action"
+                class="dictate-trigger-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all shadow-xs cursor-pointer">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                </svg>
+                <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+              </button>
             </div>
 
             <!-- Listening Banner & Visualizer Container -->
@@ -347,6 +337,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" data-dictate-action="sample" data-target="event-action" class="px-2 py-1 rounded-lg bg-teal-100 dark:bg-teal-900/60 border border-teal-300 dark:border-teal-700 text-teal-800 dark:text-teal-200 text-[11px] font-medium hover:bg-teal-200 dark:hover:bg-teal-800 cursor-pointer" title="Insert sample Khmer text">📋 Sample</button>
                   <button type="button" data-dictate-action="space" data-target="event-action" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="Add space" data-i18n="dictateAddSpace">Space</button>
                   <button type="button" data-dictate-action="newline" data-target="event-action" class="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[11px] font-medium hover:bg-teal-50 dark:hover:bg-slate-700 cursor-pointer" title="New line" data-i18n="dictateAddLine">New line</button>
                   <button type="button" data-dictate-stop="event-action" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[11px] shadow-xs cursor-pointer" data-i18n="dictateStop">
@@ -578,19 +569,14 @@
           <div>
             <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
               <label for="modal-rca" class="block text-xs font-medium" data-i18n="modalRcaLabel">Root Cause Analysis (RCA) &amp; CAPA Notes</label>
-              <div class="flex items-center gap-1">
-                <div class="inline-flex rounded border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[10px]">
-                  <button type="button" data-dictate-lang-for="modal-rca" data-lang="km-KH" class="dictate-lang-btn px-1.5 py-0.5 rounded font-bold bg-teal-600 text-white transition-all shadow-xs">ខ្មែរ (km-KH)</button>
-                  <button type="button" data-dictate-lang-for="modal-rca" data-lang="en-US" class="dictate-lang-btn px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 hover:text-slate-900 transition-all">EN</button>
-                </div>
-                <button type="button" data-dictate-target="modal-rca"
-                  class="dictate-trigger-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all cursor-pointer">
-                  <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
-                  </svg>
-                  <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
-                </button>
-              </div>
+              <!-- Voice Dictation Button -->
+              <button type="button" data-dictate-target="modal-rca"
+                class="dictate-trigger-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 dark:hover:bg-teal-900/80 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 transition-all cursor-pointer">
+                <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15a3 3 0 01-3-3V4.5a3 3 0 116 0V12a3 3 0 01-3 3z" />
+                </svg>
+                <span class="dictate-btn-text" data-i18n="dictateBtn">Khmer Dictation</span>
+              </button>
             </div>
 
             <!-- Listening Banner & Visualizer Container -->
@@ -615,6 +601,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" data-dictate-action="sample" data-target="modal-rca" class="px-1.5 py-0.5 rounded bg-teal-100 dark:bg-teal-900/60 border border-teal-300 dark:border-teal-700 text-teal-800 dark:text-teal-200 text-[10px] font-medium hover:bg-teal-200 cursor-pointer" title="Insert sample Khmer text">📋 Sample</button>
                   <button type="button" data-dictate-action="space" data-target="modal-rca" class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-700 text-slate-700 dark:text-slate-300 text-[10px]" data-i18n="dictateAddSpace">Space</button>
                   <button type="button" data-dictate-stop="modal-rca" class="px-2 py-0.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[10px] cursor-pointer" data-i18n="dictateStop">
                     Stop
@@ -933,10 +920,10 @@
       let currentModalId = null;
 
       // ---- Theme Management ----
+      // ---- Theme Management (Default: Day Mode) ----
       function initTheme() {
         const saved = localStorage.getItem(THEME_KEY);
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (saved === 'dark' || (!saved && prefersDark)) {
+        if (saved === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
@@ -1340,38 +1327,42 @@
       }
 
       // ==================== KHMER DICTATION MODULE ====================
-      const targetLanguages = {
-        'event-description': 'km-KH',
-        'event-action': 'km-KH',
-        'modal-rca': 'km-KH'
-      };
-
       let activeRecognition = null;
       let activeTargetId = null;
       let isIntentionallyListening = false;
-      let audioStream = null;
-      let audioCtx = null;
-      let analyser = null;
-      let visualizerAnimId = null;
+      let sessionBaseText = '';
+      let sessionFullSpoken = '';
 
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+      function setVoiceBarsActive(active, targetId) {
+        const banner = document.getElementById(`dictate-banner-${targetId || activeTargetId}`);
+        if (!banner) return;
+        const bars = banner.querySelectorAll('.voice-bar');
+        bars.forEach((bar, i) => {
+          if (active) {
+            bar.classList.add('animate-bounce');
+            bar.style.height = `${8 + ((i % 3) * 4)}px`;
+          } else {
+            bar.classList.remove('animate-bounce');
+            bar.style.height = `${4 + ((i % 2) * 4)}px`;
+          }
+        });
+      }
+
       function stopDictation(notify = false) {
         isIntentionallyListening = false;
-        if (visualizerAnimId) {
-          cancelAnimationFrame(visualizerAnimId);
-          visualizerAnimId = null;
-        }
-        if (audioStream) {
-          audioStream.getTracks().forEach(t => t.stop());
-          audioStream = null;
-        }
-        if (audioCtx && audioCtx.state !== 'closed') {
-          audioCtx.close().catch(() => {});
-          audioCtx = null;
-        }
+        setVoiceBarsActive(false);
 
         if (activeTargetId) {
+          const textarea = document.getElementById(activeTargetId);
+          if (textarea && sessionFullSpoken) {
+            const prefix = sessionBaseText ? sessionBaseText.trimEnd() + ' ' : '';
+            textarea.value = (prefix + sessionFullSpoken).trim();
+            textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            textarea.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+
           const banner = document.getElementById(`dictate-banner-${activeTargetId}`);
           if (banner) banner.classList.add('hidden');
 
@@ -1386,55 +1377,17 @@
 
         if (activeRecognition) {
           try {
-            activeRecognition.abort();
-          } catch (e) {}
+            activeRecognition.stop();
+          } catch (e) {
+            try { activeRecognition.abort(); } catch (err) {}
+          }
           activeRecognition = null;
         }
 
         activeTargetId = null;
         if (notify) {
-          showToast(currentLang === 'km' ? 'បានបញ្ឈប់ការកត់សំឡេង' : 'Dictation stopped.');
+          showToast(currentLang === 'km' ? 'បានបញ្ឈប់ការកត់សំឡេង និងរក្សាទុកអត្ថបទរួចរាល់' : 'Dictation stopped & saved.');
         }
-      }
-
-      function startAudioVisualizer(targetId) {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-          if (!isIntentionallyListening || activeTargetId !== targetId) {
-            stream.getTracks().forEach(t => t.stop());
-            return;
-          }
-          audioStream = stream;
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContextClass) return;
-          audioCtx = new AudioContextClass();
-          const source = audioCtx.createMediaStreamSource(stream);
-          analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 64;
-          source.connect(analyser);
-
-          const dataArray = new Uint8Array(analyser.frequencyBinCount);
-          const banner = document.getElementById(`dictate-banner-${targetId}`);
-          const bars = banner ? banner.querySelectorAll('.voice-bar') : [];
-
-          function updateBars() {
-            if (!isIntentionallyListening || activeTargetId !== targetId) return;
-            analyser.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            const avg = sum / dataArray.length;
-            const normalized = Math.min(Math.max(avg / 35, 0.4), 2.2);
-
-            bars.forEach((bar, idx) => {
-              const height = Math.min(18, Math.max(4, Math.round(5 * normalized * (0.8 + ((idx % 3) * 0.3)))));
-              bar.style.height = `${height}px`;
-            });
-            visualizerAnimId = requestAnimationFrame(updateBars);
-          }
-          updateBars();
-        }).catch(err => {
-          console.warn('Microphone audio context visualizer not available:', err);
-        });
       }
 
       function startDictation(targetId) {
@@ -1458,22 +1411,32 @@
         activeTargetId = targetId;
         isIntentionallyListening = true;
 
-        const lang = targetLanguages[targetId] || 'km-KH';
+        const textarea = document.getElementById(targetId);
+        sessionBaseText = textarea ? textarea.value : '';
+        sessionFullSpoken = '';
+
+        const lang = 'km-KH'; // Cambodian Khmer
         const banner = document.getElementById(`dictate-banner-${targetId}`);
         const statusLabel = banner ? banner.querySelector('.dictate-status-label') : null;
         const livePreview = banner ? banner.querySelector('.dictate-live-transcript') : null;
         const btn = document.querySelector(`[data-dictate-target="${targetId}"]`);
-        const textarea = document.getElementById(targetId);
 
-        if (banner) banner.classList.remove('hidden');
+        if (banner) {
+          banner.classList.remove('hidden');
+          banner.classList.remove('border-rose-400', 'bg-rose-50');
+          banner.classList.add('border-teal-200', 'bg-teal-50/90');
+        }
         if (livePreview) {
           livePreview.textContent = '';
           livePreview.classList.remove('hidden');
         }
 
         if (statusLabel) {
-          const dict = I18N[currentLang] || I18N.en;
-          statusLabel.textContent = lang === 'km-KH' ? dict.dictateListening : dict.dictateListeningEn;
+          statusLabel.textContent = currentLang === 'km'
+            ? 'កំពុងស្តាប់ជាភាសាខ្មែរ (km-KH)... សូមនិយាយ'
+            : 'Listening in Khmer (km-KH)... Speak into microphone';
+          statusLabel.classList.remove('text-rose-600');
+          statusLabel.classList.add('text-teal-900', 'dark:text-teal-200');
         }
 
         if (btn) {
@@ -1483,8 +1446,6 @@
           if (icon) icon.classList.add('animate-pulse', 'text-rose-600');
         }
 
-        startAudioVisualizer(targetId);
-
         try {
           const recognition = new SpeechRecognition();
           activeRecognition = recognition;
@@ -1493,32 +1454,47 @@
           recognition.interimResults = true;
           recognition.maxAlternatives = 1;
 
-          recognition.onresult = (event) => {
-            let interimText = '';
-            let finalSnippet = '';
+          recognition.onaudiostart = () => {
+            setVoiceBarsActive(false, targetId);
+          };
 
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
+          recognition.onspeechstart = () => {
+            setVoiceBarsActive(true, targetId);
+            if (statusLabel) {
+              statusLabel.textContent = currentLang === 'km'
+                ? '🎙️ បានឮសំឡេង... កំពុងបម្លែងជាអក្សរខ្មែរ'
+                : '🎙️ Voice detected... Transcribing Khmer';
+            }
+          };
+
+          recognition.onspeechend = () => {
+            setVoiceBarsActive(false, targetId);
+          };
+
+          recognition.onresult = (event) => {
+            let fullFinal = '';
+            let fullInterim = '';
+
+            for (let i = 0; i < event.results.length; ++i) {
               const transcript = event.results[i][0].transcript;
               if (event.results[i].isFinal) {
-                finalSnippet += transcript;
+                fullFinal += transcript + ' ';
               } else {
-                interimText += transcript;
+                fullInterim += transcript;
               }
             }
+
+            sessionFullSpoken = (fullFinal + fullInterim).trim();
 
             if (livePreview) {
-              const prefix = currentLang === 'km' ? 'កំពុងបម្លែង៖ ' : 'Transcribing: ';
-              livePreview.textContent = interimText ? `${prefix}"${interimText}"` : '';
+              const prefix = currentLang === 'km' ? 'កំពុងសម្គាល់៖ ' : 'Transcribing: ';
+              livePreview.textContent = sessionFullSpoken ? `${prefix}"${sessionFullSpoken}"` : '';
             }
 
-            if (finalSnippet && textarea) {
-              const currentVal = textarea.value;
-              if (!currentVal) {
-                textarea.value = finalSnippet.trim();
-              } else {
-                const separator = ' ';
-                textarea.value = currentVal.trimEnd() + separator + finalSnippet.trim();
-              }
+            // Immediately stream the recognized speech into the textarea!
+            if (textarea && sessionFullSpoken) {
+              const prefix = sessionBaseText ? sessionBaseText.trimEnd() + ' ' : '';
+              textarea.value = (prefix + sessionFullSpoken).trim();
               textarea.dispatchEvent(new Event('input', { bubbles: true }));
               textarea.scrollTop = textarea.scrollHeight;
             }
@@ -1526,13 +1502,42 @@
 
           recognition.onerror = (event) => {
             console.warn('Speech recognition error event:', event.error);
+            setVoiceBarsActive(false, targetId);
             const dict = I18N[currentLang] || I18N.en;
+
+            if (statusLabel) {
+              statusLabel.classList.remove('text-teal-900', 'dark:text-teal-200');
+              statusLabel.classList.add('text-rose-600');
+            }
+
             if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+              if (statusLabel) {
+                statusLabel.textContent = currentLang === 'km'
+                  ? '⚠️ ការអនុញ្ញាតមីក្រូហ្វូនត្រូវបានបដិសេធ សូមបើកការអនុញ្ញាតក្នុង Browser'
+                  : '⚠️ Microphone blocked: Please allow mic permission in your browser address bar';
+              }
               showToast(dict.dictateMicBlocked, 'error');
               stopDictation(false);
+            } else if (event.error === 'network') {
+              if (statusLabel) {
+                statusLabel.textContent = currentLang === 'km'
+                  ? '⚠️ មិនអាចភ្ជាប់សេវាបម្លែងសំឡេងបានទេ សូមពិនិត្យអ៊ីនធឺណិត'
+                  : '⚠️ Speech recognition network error. Please check your internet connection';
+              }
+              showToast(currentLang === 'km' ? 'កំហុសបណ្តាញសម្គាល់សំឡេង' : 'Speech service network error', 'error');
+              stopDictation(false);
             } else if (event.error === 'no-speech') {
-              // User was quiet, wait for speech
+              if (statusLabel) {
+                statusLabel.textContent = currentLang === 'km'
+                  ? 'ℹ️ មិនទាន់ឮសំឡេងទេ សូមនិយាយឱ្យជិតមីក្រូហ្វូន'
+                  : 'ℹ️ No speech heard yet. Please speak closer to your microphone';
+              }
             } else if (event.error === 'audio-capture') {
+              if (statusLabel) {
+                statusLabel.textContent = currentLang === 'km'
+                  ? '⚠️ រកមិនឃើញមីក្រូហ្វូនទេ'
+                  : '⚠️ No microphone detected on this device';
+              }
               showToast(currentLang === 'km' ? 'មិនមានមីក្រូហ្វូនត្រូវបានរកឃើញទេ។' : 'No microphone was found.', 'error');
               stopDictation(false);
             }
@@ -1549,9 +1554,9 @@
           };
 
           recognition.start();
-          showToast(lang === 'km-KH'
+          showToast(currentLang === 'km'
             ? 'កំពុងស្តាប់ជាភាសាខ្មែរ (km-KH)... សូមនិយាយ'
-            : 'Listening in English... Speak now');
+            : 'Listening in Khmer (km-KH)... Speak now');
         } catch (err) {
           console.error('Failed to initialize SpeechRecognition:', err);
           stopDictation(false);
@@ -1577,32 +1582,7 @@
         });
       });
 
-      // Language Switcher per field (Khmer km-KH vs English en-US)
-      document.querySelectorAll('.dictate-lang-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = btn.getAttribute('data-dictate-lang-for');
-          const lang = btn.getAttribute('data-lang');
-          targetLanguages[target] = lang;
-
-          document.querySelectorAll(`[data-dictate-lang-for="${target}"]`).forEach(b => {
-            if (b === btn) {
-              b.classList.add('bg-teal-600', 'text-white', 'font-bold', 'shadow-xs');
-              b.classList.remove('text-slate-600', 'dark:text-slate-300');
-            } else {
-              b.classList.remove('bg-teal-600', 'text-white', 'font-bold', 'shadow-xs');
-              b.classList.add('text-slate-600', 'dark:text-slate-300');
-            }
-          });
-
-          if (activeTargetId === target && isIntentionallyListening) {
-            stopDictation(false);
-            startDictation(target);
-          }
-        });
-      });
-
-      // Quick helper buttons (Space, Newline)
+      // Quick helper buttons (Space, Newline, Sample Khmer Text)
       document.querySelectorAll('[data-dictate-action]').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -1615,6 +1595,15 @@
             textarea.value = (textarea.value || '') + ' ';
           } else if (action === 'newline') {
             textarea.value = (textarea.value || '') + '\n';
+          } else if (action === 'sample') {
+            const sampleText = target === 'event-action'
+              ? 'បានបញ្ឈប់ការចាក់ថ្នាំពណ៌ភ្លាមៗ ស្អំទឹកកក និងបានជូនដំណឹងដល់វេជ្ជបណ្ឌិតវិទ្យុសាស្ត្រ។'
+              : target === 'modal-rca'
+              ? 'ការវិភាគឫសគល់៖ ខ្វះការពិនិត្យផ្ទៀងផ្ទាត់បញ្ជីសុវត្ថិភាព Zone II មុនពេលរុញអ្នកជំងឺចូល។ វិធានការកែតម្រូវ៖ បានបិទស្លាកសញ្ញាសុវត្ថិភាពបន្ថែម និងរៀបចំការបណ្តុះបណ្តាលខ្លី ១០ នាទីជូនបុគ្គលិក។'
+              : 'អ្នកជំងឺបានទទួលការចាក់ថ្នាំពណ៌ iodinated contrast ចំនួន 15 mL សម្រាប់ការថត CT Scan។ បានកត់សម្គាល់ឃើញមានការលេចធ្លាយថ្នាំពណ៌នៅដៃខាងស្តាំ។';
+            const cur = textarea.value.trim();
+            textarea.value = cur ? `${cur} ${sampleText}` : sampleText;
+            showToast(currentLang === 'km' ? 'បានបញ្ចូលអត្ថបទគំរូជាភាសាខ្មែរ' : 'Sample Khmer text inserted.');
           }
           textarea.dispatchEvent(new Event('input', { bubbles: true }));
           textarea.focus();
