@@ -1,21 +1,22 @@
 {
-  "name": "RadSafe",
-  "short_name": "RadSafe",
-  "description": "Radiology Incident & Accident Reporting Tool",
-  "start_url": "/RadSafe/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "name": "radsafe",
+  "version": "1.0.0",
+  "description": "RadSafe - A radiology incident and accident reporting system.",
+  "homepage": "https://jrookpanda.github.io/RadSafe",
+  "scripts": {
+    "start": "npx serve .",
+    "deploy": "gh-pages -d ."
+  },
+  "keywords": [
+    "radiology",
+    "safety",
+    "incident-reporting",
+    "quality-improvement"
+  ],
+  "author": "Sovann Vathana Lay",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "serve": "^14.2.4"
+  }
 }
