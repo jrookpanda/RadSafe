@@ -68,14 +68,17 @@
       </div>
 
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <!-- Google Sheets Live Sync Pill -->
-        <button id="sheet-sync-btn" type="button" aria-label="Sync with Google Sheets" title="Click to sync latest records from Google Sheets"
-          class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold border transition-all cursor-pointer bg-sky-50 dark:bg-sky-950/60 border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:brightness-95">
-          <span id="sheet-sync-dot" class="w-2 h-2 rounded-full bg-sky-500 hidden shrink-0"></span>
-          <svg id="sheet-sync-spinner" class="w-3.5 h-3.5 animate-spin shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-          </svg>
-          <span id="sheet-sync-text" class="whitespace-nowrap" data-i18n="syncStateSyncing">Syncing...</span>
+        <!-- Google Sheets Minimalist Status Dot (Click to inspect status & sync; auto-collapses) -->
+        <button id="sheet-sync-btn" type="button" aria-label="Google Sheets Sync Status" title="Click to view sync status &amp; refresh"
+          class="group flex items-center p-1 rounded-full transition-all duration-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent">
+          <span id="sheet-sync-dot" class="w-5 h-5 rounded-full bg-teal-500 text-white flex items-center justify-center shadow-xs shrink-0 transition-colors duration-200">
+            <svg id="sheet-sync-svg" class="w-3 h-3 animate-spin" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+          </span>
+          <span id="sheet-sync-detail" class="overflow-hidden transition-all duration-300 max-w-0 opacity-0 whitespace-nowrap text-[11px] font-semibold">
+            <span id="sheet-sync-text" class="pl-1.5 pr-1">Syncing...</span>
+          </span>
         </button>
 
         <!-- Admin Security Guard 2FA Status Button -->
@@ -159,14 +162,14 @@
         <!-- 1. Event Classification -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm">
           <label class="block text-sm font-semibold mb-3"><span data-i18n="q1Title">1. Event Classification</span> <span class="text-rose-500">*</span></label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5" id="classification-group">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5" id="classification-group">
             <button type="button" data-value="Near-Miss"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600 transition-all">
               <div class="flex items-center justify-between mb-1 gap-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400" data-i18n="classNearMiss">Near-Miss</span>
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classNearMissDesc">Caught before reaching patient (No Harm)</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classNearMissDesc">No Harm • Caught before reaching patient</p>
             </button>
             <button type="button" data-value="Incident"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-600 transition-all">
@@ -174,7 +177,7 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400" data-i18n="classIncident">Incident</span>
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classIncidentDesc">Reached patient (No / Minor Harm)</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classIncidentDesc">No / Minor Harm • Reached patient</p>
             </button>
             <button type="button" data-value="Adverse Event"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-orange-400 dark:hover:border-orange-600 transition-all">
@@ -182,7 +185,7 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400" data-i18n="classAdverse">Adverse Event</span>
                 <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shrink-0"></span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classAdverseDesc">Moderate or Severe patient harm</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classAdverseDesc">Moderate to Severe Harm</p>
             </button>
             <button type="button" data-value="Sentinel Event"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-rose-500 dark:hover:border-rose-600 transition-all">
@@ -190,15 +193,7 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400" data-i18n="classSentinel">Sentinel Event</span>
                 <span class="w-2.5 h-2.5 rounded-full bg-rose-600 shrink-0"></span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classSentinelDesc">Critical / Immediate RCA required</p>
-            </button>
-            <button type="button" data-value="Workflow Disruption"
-              class="class-card sm:col-span-2 lg:col-span-1 text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all">
-              <div class="flex items-center justify-between mb-1 gap-1">
-                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400" data-i18n="classWorkflow">Workflow Disruption</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0"></span>
-              </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classWorkflowDesc">System error, server/PACS down, or communication delay</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classSentinelDesc">Critical or Death • Immediate RCA</p>
             </button>
           </div>
           <input type="hidden" id="event-classification" required />
@@ -215,7 +210,6 @@
           <div>
             <label class="block text-sm font-semibold mb-2.5"><span data-i18n="q3Title">3. Location / Modality</span> <span class="text-rose-500">*</span></label>
             <div class="flex flex-wrap gap-2" id="modality-chips">
-              <!-- Chips populated by JS or static -->
               <button type="button" data-value="CT Scan" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">CT Scan</button>
               <button type="button" data-value="MRI" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">MRI</button>
               <button type="button" data-value="General X-Ray" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">General X-Ray</button>
@@ -223,14 +217,15 @@
               <button type="button" data-value="Interventional / Angio Suite" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">Interventional / Angio Suite</button>
               <button type="button" data-value="Fluoroscopy" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">Fluoroscopy</button>
               <button type="button" data-value="Mammography" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">Mammography</button>
+              <button type="button" data-value="PACS / RIS / Reporting Room" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">PACS / RIS / Reporting Room</button>
               <button type="button" data-value="Waiting/Prep Area" class="chip-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors">Waiting/Prep Area</button>
             </div>
             <input type="hidden" id="event-modality" required />
           </div>
         </div>
 
-        <!-- 4. Category & Severity -->
-        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm space-y-5">
+        <!-- 4. Radiology Incident Category -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm">
           <div>
             <label for="event-category" class="block text-sm font-semibold mb-2"><span data-i18n="q4Title">4. Radiology Incident Category</span> <span class="text-rose-500">*</span></label>
             <select id="event-category" required
@@ -240,6 +235,8 @@
               <option value="Radiation Safety / ALARA / Pregnancy Screening" data-i18n="catRadiation">Radiation Safety / ALARA / Pregnancy Screening</option>
               <option value="MRI Safety (Screening/Projectile)" data-i18n="catMri">MRI Safety (Screening / Projectile)</option>
               <option value="Interventional / Procedural Complication" data-i18n="catInterventional">Interventional / Procedural Complication</option>
+              <option value="Diagnostic Events" data-i18n="catDiagnostic">Diagnostic Events</option>
+              <option value="Physical & Occupational Events" data-i18n="catPhysical">Physical &amp; Occupational Events</option>
               <option value="Patient ID / Wrong Site/Side" data-i18n="catPatientId">Patient ID / Wrong Site / Side</option>
               <option value="Equipment Failure / Malfunction" data-i18n="catEquipment">Equipment Failure / Malfunction</option>
               <option value="IT / PACS / RIS / Server Outage" data-i18n="catItOutage">IT / PACS / RIS / Server Outage</option>
@@ -251,18 +248,6 @@
               <option value="Other" data-i18n="catOther">Other</option>
             </select>
           </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-2.5"><span data-i18n="q5Title">5. Severity / Harm Level</span> <span class="text-rose-500">*</span></label>
-            <div class="flex flex-wrap gap-2" id="severity-chips">
-              <button type="button" data-value="No Harm (Near-Miss)" data-i18n="sevNoHarm" class="sev-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition-colors">No Harm (Near-Miss)</button>
-              <button type="button" data-value="Mild" data-i18n="sevMild" class="sev-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition-colors">Mild</button>
-              <button type="button" data-value="Moderate" data-i18n="sevModerate" class="sev-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition-colors">Moderate</button>
-              <button type="button" data-value="Severe" data-i18n="sevSevere" class="sev-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition-colors">Severe</button>
-              <button type="button" data-value="Death / Permanent Harm (Sentinel)" data-i18n="sevSentinel" class="sev-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition-colors">Death / Permanent Harm (Sentinel)</button>
-            </div>
-            <input type="hidden" id="event-severity" required />
-          </div>
         </div>
 
         <!-- 5. Description & Contributing Factors -->
@@ -270,7 +255,7 @@
           <div>
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <label for="event-description" class="block text-sm font-semibold">
-                <span data-i18n="q6Title">6. What Happened?</span> <span class="text-rose-500">*</span>
+                <span data-i18n="q6Title">5. What Happened?</span> <span class="text-rose-500">*</span>
               </label>
               <!-- Voice Dictation Button -->
               <button type="button" data-dictate-target="event-description"
@@ -400,10 +385,10 @@
           </div>
         </div>
 
-        <!-- 7. Reporter Info -->
+        <!-- 6. Reporter Info -->
         <div id="reporter-section" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-semibold" data-i18n="q7Title">7. Reporter Information</h3>
+            <h3 class="text-sm font-semibold" data-i18n="q7Title">6. Reporter Information</h3>
             <span class="text-xs text-slate-400" data-i18n="optionalLabel">(Optional)</span>
           </div>
 
@@ -497,6 +482,7 @@
               <option value="Interventional / Angio Suite">Interventional / Angio Suite</option>
               <option value="Fluoroscopy">Fluoroscopy</option>
               <option value="Mammography">Mammography</option>
+              <option value="PACS / RIS / Reporting Room">PACS / RIS / Reporting Room</option>
               <option value="Waiting/Prep Area">Waiting/Prep Area</option>
             </select>
           </div>
@@ -683,10 +669,9 @@
       <div class="p-5 overflow-y-auto space-y-4 text-sm">
         <div id="modal-badges" class="flex flex-wrap gap-2"></div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-xl text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-xl text-xs">
           <div><span class="text-slate-500 dark:text-slate-400" data-i18n="modalDateLabel">Date/Time:</span> <strong id="modal-datetime"></strong></div>
           <div><span class="text-slate-500 dark:text-slate-400" data-i18n="modalModalityLabel">Modality:</span> <strong id="modal-modality"></strong></div>
-          <div><span class="text-slate-500 dark:text-slate-400" data-i18n="modalSeverityLabel">Severity:</span> <strong id="modal-severity"></strong></div>
           <div><span class="text-slate-500 dark:text-slate-400" data-i18n="modalReporterLabel">Reporter:</span> <strong id="modal-reporter"></strong></div>
         </div>
 
@@ -846,14 +831,10 @@
       <!-- Modal Body (Scrollable Summary) -->
       <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm">
         <!-- Top Badges Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
           <div>
             <span class="text-[11px] font-medium text-slate-400 block uppercase tracking-wider mb-0.5" data-i18n="summaryClass">Classification</span>
             <span id="summary-classification" class="px-2 py-0.5 rounded-full text-xs font-semibold inline-block"></span>
-          </div>
-          <div>
-            <span class="text-[11px] font-medium text-slate-400 block uppercase tracking-wider mb-0.5" data-i18n="summarySeverity">Severity</span>
-            <span id="summary-severity" class="font-bold text-slate-800 dark:text-slate-200 text-xs block truncate"></span>
           </div>
           <div>
             <span class="text-[11px] font-medium text-slate-400 block uppercase tracking-wider mb-0.5" data-i18n="summaryModality">Modality</span>
@@ -1016,25 +997,17 @@
           submitAnon: 'Submit Anonymously',
           q1Title: '1. Event Classification',
           classNearMiss: 'Near-Miss',
-          classNearMissDesc: 'Caught before reaching patient (No Harm)',
+          classNearMissDesc: 'No Harm • Caught before reaching patient',
           classIncident: 'Incident',
-          classIncidentDesc: 'Reached patient (No / Minor Harm)',
+          classIncidentDesc: 'No / Minor Harm • Reached patient',
           classAdverse: 'Adverse Event',
-          classAdverseDesc: 'Moderate or Severe patient harm',
+          classAdverseDesc: 'Moderate to Severe Harm',
           classSentinel: 'Sentinel Event',
-          classSentinelDesc: 'Critical / Immediate RCA required',
-          classWorkflow: 'Workflow Disruption',
-          classWorkflowDesc: 'System error, server/PACS down, or communication delay',
+          classSentinelDesc: 'Critical or Death • Immediate RCA',
           q2Title: '2. Date & Time of Occurrence',
           q3Title: '3. Location / Modality',
           q4Title: '4. Radiology Incident Category',
-          q5Title: '5. Severity / Harm Level',
-          sevNoHarm: 'No Harm (Near-Miss)',
-          sevMild: 'Mild',
-          sevModerate: 'Moderate',
-          sevSevere: 'Severe',
-          sevSentinel: 'Death / Permanent Harm (Sentinel)',
-          q6Title: '6. What Happened?',
+          q6Title: '5. What Happened?',
           descPlaceholder: 'Describe the sequence of events objectively (avoid naming individuals if possible)...',
           actionLabel: 'Immediate Action Taken',
           actionPlaceholder: 'e.g., Stopped contrast infusion, applied cold compress, notified radiologist...',
@@ -1045,7 +1018,7 @@
           factorComm: 'Communication',
           factorSOP: 'Protocol/SOP',
           factorEnv: 'Environment',
-          q7Title: '7. Reporter Information',
+          q7Title: '6. Reporter Information',
           anonDesc: 'Protect your identity; name will not be saved',
           anonBadge: 'Anonymous Mode',
           anonPlaceholder: 'Anonymous (Identity Protected)',
@@ -1118,6 +1091,8 @@
           catRadiation: 'Radiation Safety / ALARA / Pregnancy Screening',
           catMri: 'MRI Safety (Screening / Projectile)',
           catInterventional: 'Interventional / Procedural Complication',
+          catDiagnostic: 'Diagnostic Events',
+          catPhysical: 'Physical & Occupational Events',
           catPatientId: 'Patient ID / Wrong Site / Side',
           catEquipment: 'Equipment Failure / Malfunction',
           catItOutage: 'IT / PACS / RIS / Server Outage',
@@ -1146,10 +1121,10 @@
           adminLockedToast: 'Admin session locked.',
           unauthorizedNotice: 'Admin 2FA authentication required.',
           footerLatestEdition: 'Latest Edition: November 13, 2026',
-          syncStateSynced: 'Sheet Synced',
-          syncStateSyncing: 'Syncing...',
-          syncStateOffline: 'Offline (Local)',
-          syncStatePending: 'Pending Sync',
+          syncStateSynced: 'Synced • All saved in Sheet',
+          syncStateSyncing: 'Syncing with Sheet...',
+          syncStateOffline: 'Unsynced • Offline (Local)',
+          syncStatePending: 'Unsaved • Pending sync',
           retrySyncBtn: 'Retry Sync',
           syncBannerPulling: 'Syncing live records from Google Sheets (Incident_Register)...',
           syncBannerPending: 'change(s) saved locally — waiting for internet to sync to Google Sheet.',
@@ -1168,25 +1143,17 @@
           submitAnon: 'រាយការណ៍ដោយអនាមិក',
           q1Title: '១. ចំណាត់ថ្នាក់នៃហេតុការណ៍',
           classNearMiss: 'ជិតកើតឡើង (Near-Miss)',
-          classNearMissDesc: 'រកឃើញទាន់ពេលមុនប៉ះពាល់អ្នកជំងឺ',
+          classNearMissDesc: 'គ្មានគ្រោះថ្នាក់ • រកឃើញមុនប៉ះពាល់អ្នកជំងឺ',
           classIncident: 'ឧប្បត្តិហេតុ (Incident)',
-          classIncidentDesc: 'ដល់អ្នកជំងឺ (គ្មាន ឬប៉ះពាល់តិចតួច)',
+          classIncidentDesc: 'គ្មាន ឬប៉ះពាល់តិចតួច • ដល់អ្នកជំងឺ',
           classAdverse: 'ផលប៉ះពាល់ធ្ងន់ធ្ងរ (Adverse)',
-          classAdverseDesc: 'ប៉ះពាល់អ្នកជំងឺកម្រិតមធ្យម ឬធ្ងន់',
+          classAdverseDesc: 'ប៉ះពាល់កម្រិតមធ្យម ទៅធ្ងន់ធ្ងរ',
           classSentinel: 'ហេតុការណ៍ធ្ងន់ធ្ងរបំផុត (Sentinel)',
-          classSentinelDesc: 'ធ្ងន់ធ្ងរ / ត្រូវការ RCA ជាបន្ទាន់',
-          classWorkflow: 'រអាក់រអួលការងារ (Workflow)',
-          classWorkflowDesc: 'កំហុសប្រព័ន្ធ ដាច់សេវា Server ឬបញ្ហាទំនាក់ទំនង',
+          classSentinelDesc: 'ធ្ងន់ធ្ងរ ឬស្លាប់ • ត្រូវការ RCA ជាបន្ទាន់',
           q2Title: '២. កាលបរិច្ឆេទ និងម៉ោងកើតហេតុ',
           q3Title: '៣. ទីតាំង / ឧបករណ៍ថតឆ្លុះ',
           q4Title: '៤. ប្រភេទនៃឧប្បត្តិហេតុផ្នែកវិទ្យុសាស្ត្រ',
-          q5Title: '៥. កម្រិតធ្ងន់ធ្ងរ / ផលប៉ះពាល់',
-          sevNoHarm: 'គ្មានផលប៉ះពាល់ (Near-Miss)',
-          sevMild: 'ស្រាល',
-          sevModerate: 'មធ្យម',
-          sevSevere: 'ធ្ងន់',
-          sevSentinel: 'ស្លាប់ / ពិការភាពអចិន្ត្រៃយ៍',
-          q6Title: '៦. តើមានអ្វីកើតឡើង?',
+          q6Title: '៥. តើមានអ្វីកើតឡើង?',
           descPlaceholder: 'ពិពណ៌នាអំពីដំណើររឿងដោយវត្ថុបំណង (ជៀសវាងការបញ្ចេញឈ្មោះបុគ្គល)...',
           actionLabel: 'វិធានការបន្ទាន់ដែលបានធ្វើ',
           actionPlaceholder: 'ឧ. បញ្ឈប់ការចាក់ថ្នាំពណ៌ ស្អំទឹកកក ជូនដំណឹងដល់វេជ្ជបណ្ឌិតវិទ្យុសាស្ត្រ...',
@@ -1197,7 +1164,7 @@
           factorComm: 'ការទំនាក់ទំនង',
           factorSOP: 'គោលការណ៍/SOP',
           factorEnv: 'បរិស្ថាន',
-          q7Title: '៧. ព័ត៌មានអ្នករាយការណ៍',
+          q7Title: '៦. ព័ត៌មានអ្នករាយការណ៍',
           anonDesc: 'ការពារអត្តសញ្ញាណរបស់អ្នក ឈ្មោះនឹងមិនត្រូវបានកត់ត្រាឡើយ',
           anonBadge: 'របៀបអនាមិក',
           anonPlaceholder: 'អនាមិក (រក្សាការសម្ងាត់)',
@@ -1271,6 +1238,8 @@
           catRadiation: 'សុវត្ថិភាពវិទ្យុសកម្ម / ALARA / ពិនិត្យផ្ទៃពោះ (Radiation Safety)',
           catMri: 'សុវត្ថិភាពម៉ាស៊ីន MRI / វត្ថុដែកឆក់ (MRI Safety)',
           catInterventional: 'ផលវិបាកផ្នែកអន្តរាគមន៍ / នីតិវិធី (Interventional Complication)',
+          catDiagnostic: 'ព្រឹត្តិការណ៍ផ្នែករោគវិនិច្ឆ័យ (Diagnostic Events)',
+          catPhysical: 'ព្រឹត្តិការណ៍រាងកាយ និងសុវត្ថិភាពការងារ (Physical & Occupational)',
           catPatientId: 'ខុសអត្តសញ្ញាណអ្នកជំងឺ / ខុសទីតាំង/ចំហៀង (Wrong ID / Site)',
           catEquipment: 'ឧបករណ៍ខូច / ដំណើរការខុសប្រក្រតី (Equipment Failure)',
           catItOutage: 'បញ្ហាប្រព័ន្ធ PACS / RIS / ដាច់ Server (IT / System Outage)',
@@ -1298,10 +1267,10 @@
           adminUnlockedToast: 'បានដោះសោសិទ្ធិរដ្ឋបាលដោយជោគជ័យសម្រាប់ ',
           adminLockedToast: 'បានចាក់សោសិទ្ធិរដ្ឋបាលឡើងវិញ។',
           unauthorizedNotice: 'សូមដោះសោដោយលេខកូដ 2FA TOTP ជាមុនសិន។',
-          syncStateSynced: 'បានភ្ជាប់ Sheet',
-          syncStateSyncing: 'កំពុងភ្ជាប់...',
-          syncStateOffline: 'ក្រៅបណ្តាញ',
-          syncStatePending: 'រង់ចាំបញ្ជូន',
+          syncStateSynced: 'បានភ្ជាប់ • រក្សាទុកក្នុង Sheet',
+          syncStateSyncing: 'កំពុងភ្ជាប់ជាមួយ Sheet...',
+          syncStateOffline: 'មិនទាន់ភ្ជាប់ • ប្រើទិន្នន័យក្នុងឧបករណ៍',
+          syncStatePending: 'មិនទាន់រក្សាទុក • រង់ចាំបញ្ជូន',
           retrySyncBtn: 'ព្យាយាមម្តងទៀត',
           syncBannerPulling: 'កំពុងទាញយកទិន្នន័យចុងក្រោយពី Google Sheets (Incident_Register)...',
           syncBannerPending: 'កំណត់ត្រាត្រូវបានរក្សាទុកក្នុងឧបករណ៍ — រង់ចាំអ៊ីនធឺណិតដើម្បីបញ្ជូនទៅ Google Sheet។',
@@ -1543,12 +1512,40 @@
         };
       }
 
+      let syncCollapseTimer = null;
+
+      function collapseSyncStatus() {
+        const btn = document.getElementById('sheet-sync-btn');
+        const detail = document.getElementById('sheet-sync-detail');
+        if (!btn || !detail) return;
+        detail.classList.remove('max-w-[260px]', 'opacity-100');
+        detail.classList.add('max-w-0', 'opacity-0');
+        btn.classList.remove('pr-2.5', 'bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
+        btn.classList.add('border-transparent');
+      }
+
+      function expandSyncStatus(durationMs = 3500) {
+        const btn = document.getElementById('sheet-sync-btn');
+        const detail = document.getElementById('sheet-sync-detail');
+        if (!btn || !detail) return;
+        detail.classList.remove('max-w-0', 'opacity-0');
+        detail.classList.add('max-w-[260px]', 'opacity-100');
+        btn.classList.remove('border-transparent');
+        btn.classList.add('pr-2.5', 'bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
+        if (syncCollapseTimer) clearTimeout(syncCollapseTimer);
+        if (durationMs > 0) {
+          syncCollapseTimer = setTimeout(() => {
+            collapseSyncStatus();
+          }, durationMs);
+        }
+      }
+
       function updateSyncPillUI(state) {
         currentSyncState = state || currentSyncState;
         const dict = I18N[currentLang] || I18N.en;
         const btn = document.getElementById('sheet-sync-btn');
         const dot = document.getElementById('sheet-sync-dot');
-        const spinner = document.getElementById('sheet-sync-spinner');
+        const svg = document.getElementById('sheet-sync-svg');
         const text = document.getElementById('sheet-sync-text');
 
         const banner = document.getElementById('register-sync-banner');
@@ -1556,45 +1553,40 @@
         const bannerMsg = document.getElementById('register-sync-msg');
         const retryBtn = document.getElementById('register-sync-retry-btn');
 
-        if (btn && dot && spinner && text) {
-          btn.classList.remove(
-            'bg-sky-50', 'dark:bg-sky-950/60', 'border-sky-200', 'dark:border-sky-800', 'text-sky-700', 'dark:text-sky-300',
-            'bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-200', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300',
-            'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800', 'text-amber-700', 'dark:text-amber-300',
-            'bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300'
-          );
-          dot.classList.remove('bg-sky-500', 'bg-emerald-500', 'bg-amber-500', 'bg-slate-400');
+        if (btn && dot && svg && text) {
+          dot.classList.remove('bg-teal-500', 'bg-emerald-500', 'bg-amber-500', 'bg-rose-500');
+          svg.classList.remove('animate-spin');
+          text.classList.remove('text-teal-700', 'dark:text-teal-300', 'text-emerald-700', 'dark:text-emerald-300', 'text-amber-700', 'dark:text-amber-300', 'text-rose-700', 'dark:text-rose-300');
 
           if (currentSyncState === 'syncing') {
-            btn.classList.add('bg-sky-50', 'dark:bg-sky-950/60', 'border-sky-200', 'dark:border-sky-800', 'text-sky-700', 'dark:text-sky-300');
-            dot.classList.add('hidden');
-            spinner.classList.remove('hidden');
-            text.textContent = dict.syncStateSyncing || 'Syncing...';
+            dot.classList.add('bg-teal-500');
+            svg.classList.add('animate-spin');
+            svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />';
+            text.classList.add('text-teal-700', 'dark:text-teal-300');
+            text.textContent = dict.syncStateSyncing || 'Syncing with Sheet...';
             btn.title = 'Syncing with Google Sheets (Incident_Register)...';
           } else if (currentSyncState === 'synced') {
-            btn.classList.add('bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-200', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300');
-            dot.classList.remove('hidden');
             dot.classList.add('bg-emerald-500');
-            spinner.classList.add('hidden');
-            text.textContent = dict.syncStateSynced || 'Sheet Synced';
+            svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />';
+            text.classList.add('text-emerald-700', 'dark:text-emerald-300');
+            const syncedBase = dict.syncStateSynced || 'Synced • All saved in Sheet';
+            text.textContent = lastSyncedAt ? `${syncedBase} (${lastSyncedAt})` : syncedBase;
             btn.title = lastSyncedAt
-              ? `Synced with Google Sheets (${lastSyncedAt}). Click to refresh.`
-              : 'Synced with Google Sheets. Click to refresh.';
+              ? `Sheet Synced (${lastSyncedAt}). Click to view status & refresh.`
+              : 'Sheet Synced. Click to view status & refresh.';
           } else if (currentSyncState === 'pending') {
-            btn.classList.add('bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800', 'text-amber-700', 'dark:text-amber-300');
-            dot.classList.remove('hidden');
             dot.classList.add('bg-amber-500');
-            spinner.classList.add('hidden');
-            const label = dict.syncStatePending || 'Pending Sync';
-            text.textContent = pendingQueue.length > 0 ? `${label} (${pendingQueue.length})` : label;
-            btn.title = `${pendingQueue.length} local change(s) queued. Click to retry sync with Google Sheets.`;
+            svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-12m0 0l-4.5 4.5M12 6l4.5 4.5" />';
+            text.classList.add('text-amber-700', 'dark:text-amber-300');
+            const label = dict.syncStatePending || 'Unsaved • Pending sync';
+            text.textContent = pendingQueue.length > 0 ? `${pendingQueue.length} ${label}` : label;
+            btn.title = `${pendingQueue.length} unsaved local change(s). Click to retry sync.`;
           } else {
-            btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
-            dot.classList.remove('hidden');
-            dot.classList.add('bg-amber-500');
-            spinner.classList.add('hidden');
-            text.textContent = dict.syncStateOffline || 'Offline (Local)';
-            btn.title = 'Offline fallback active (localStorage). Click to reconnect with Google Sheets.';
+            dot.classList.add('bg-rose-500');
+            svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+            text.classList.add('text-rose-700', 'dark:text-rose-300');
+            text.textContent = dict.syncStateOffline || 'Unsynced • Offline (Local)';
+            btn.title = 'Unsynced / Offline (using localStorage). Click to retry.';
           }
         }
 
@@ -1768,7 +1760,11 @@
 
       const sheetSyncBtn = document.getElementById('sheet-sync-btn');
       if (sheetSyncBtn) {
-        sheetSyncBtn.addEventListener('click', () => syncFromSheet(true));
+        sheetSyncBtn.addEventListener('click', async () => {
+          expandSyncStatus(4500);
+          await syncFromSheet(true);
+          expandSyncStatus(3500);
+        });
       }
       const registerSyncRetryBtn = document.getElementById('register-sync-retry-btn');
       if (registerSyncRetryBtn) {
@@ -1874,18 +1870,14 @@
         });
       });
 
-      // Severity Chips
-      document.querySelectorAll('.sev-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.sev-btn').forEach(b => {
-            b.classList.remove('bg-teal-600', 'text-white', 'border-teal-600');
-            b.classList.add('bg-slate-50', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
-          });
-          btn.classList.remove('bg-slate-50', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
-          btn.classList.add('bg-teal-600', 'text-white', 'border-teal-600');
-          document.getElementById('event-severity').value = btn.dataset.value;
-        });
-      });
+      // Derive standard severity label for Sheet compatibility from classification
+      function deriveSeverityFromClassification(classification) {
+        if (classification === 'Near-Miss') return 'No Harm';
+        if (classification === 'Incident') return 'No / Minor Harm';
+        if (classification === 'Adverse Event') return 'Moderate to Severe Harm';
+        if (classification === 'Sentinel Event') return 'Critical or Death';
+        return '';
+      }
 
       // Anonymous Toggle (Inside Panel 7: Reporter Information)
       const anonToggle = document.getElementById('anonymous-toggle');
@@ -1934,12 +1926,10 @@
         e.preventDefault();
         const classification = document.getElementById('event-classification').value;
         const modality = document.getElementById('event-modality').value;
-        const severity = document.getElementById('event-severity').value;
         const description = document.getElementById('event-description').value.trim();
 
         if (!classification) return showToast(currentLang === 'km' ? 'សូមជ្រើសរើសចំណាត់ថ្នាក់នៃហេតុការណ៍' : 'Please select an Event Classification.', 'error');
         if (!modality) return showToast(currentLang === 'km' ? 'សូមជ្រើសរើសទីតាំង / ឧបករណ៍' : 'Please select a Location / Modality.', 'error');
-        if (!severity) return showToast(currentLang === 'km' ? 'សូមជ្រើសរើសកម្រិតធ្ងន់ធ្ងរ' : 'Please select a Severity / Harm Level.', 'error');
         if (!description) return showToast(currentLang === 'km' ? 'សូមពិពណ៌នាអំពីដំណើររឿងដែលបានកើតឡើង' : 'Please describe what happened.', 'error');
 
         const isAnon = anonToggle.checked;
@@ -1958,7 +1948,7 @@
           datetime: document.getElementById('event-datetime').value,
           modality,
           category: document.getElementById('event-category').value,
-          severity,
+          severity: deriveSeverityFromClassification(classification),
           description,
           action: document.getElementById('event-action').value.trim(),
           factors,
@@ -1974,7 +1964,6 @@
         classEl.textContent = pendingReport.classification;
         classEl.className = `px-2 py-0.5 rounded-full text-xs font-semibold inline-block ${getBadgeColor('class', pendingReport.classification)}`;
 
-        document.getElementById('summary-severity').textContent = pendingReport.severity;
         document.getElementById('summary-modality').textContent = pendingReport.modality;
         document.getElementById('summary-datetime').textContent = formatDateDDMMYYYY(pendingReport.datetime, true);
         document.getElementById('summary-category').textContent = pendingReport.category;
@@ -2039,13 +2028,12 @@
         if (typeof stopDictation === 'function') stopDictation(false);
         document.getElementById('incident-form').reset();
         document.querySelectorAll('.class-card').forEach(c => c.classList.remove('border-teal-600', 'dark:border-teal-500', 'bg-teal-50/50', 'dark:bg-teal-950/30', 'ring-2', 'ring-teal-500/20'));
-        document.querySelectorAll('.chip-btn, .sev-btn').forEach(b => {
+        document.querySelectorAll('.chip-btn').forEach(b => {
           b.classList.remove('bg-teal-600', 'text-white', 'border-teal-600');
           b.classList.add('bg-slate-50', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
         });
         document.getElementById('event-classification').value = '';
         document.getElementById('event-modality').value = '';
-        document.getElementById('event-severity').value = '';
         if (anonToggle) {
           anonToggle.checked = false;
           updateAnonymousUI();
@@ -2074,7 +2062,6 @@
           if (val === 'Near-Miss') return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300';
           if (val === 'Incident') return 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300';
           if (val === 'Adverse Event') return 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300';
-          if (val === 'Workflow Disruption') return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300';
           return 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300';
         }
         if (type === 'status') {
@@ -2147,7 +2134,7 @@
             <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">${r.category}</h4>
             <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-3">${r.description}</p>
             <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <span><strong>${r.modality}</strong> &bull; ${r.severity}</span>
+              <span><strong>${r.modality}</strong></span>
               <span>${formatDateDDMMYYYY(r.datetime, true)}</span>
             </div>
           </div>
@@ -2576,7 +2563,6 @@
         `;
         document.getElementById('modal-datetime').textContent = formatDateDDMMYYYY(r.datetime, true);
         document.getElementById('modal-modality').textContent = r.modality;
-        document.getElementById('modal-severity').textContent = r.severity;
         document.getElementById('modal-reporter').textContent = r.reporterName === 'Anonymous' ? 'Anonymous' : `${r.reporterName} (${r.reporterRole})`;
         document.getElementById('modal-description').textContent = r.description;
 
