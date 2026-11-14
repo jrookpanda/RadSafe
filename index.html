@@ -67,10 +67,20 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-2 shrink-0">
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Google Sheets Live Sync Pill -->
+        <button id="sheet-sync-btn" type="button" aria-label="Sync with Google Sheets" title="Click to sync latest records from Google Sheets"
+          class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold border transition-all cursor-pointer bg-sky-50 dark:bg-sky-950/60 border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:brightness-95">
+          <span id="sheet-sync-dot" class="w-2 h-2 rounded-full bg-sky-500 hidden shrink-0"></span>
+          <svg id="sheet-sync-spinner" class="w-3.5 h-3.5 animate-spin shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span id="sheet-sync-text" class="whitespace-nowrap" data-i18n="syncStateSyncing">Syncing...</span>
+        </button>
+
         <!-- Admin Security Guard 2FA Status Button -->
         <button id="admin-status-btn" type="button" aria-label="Admin 2FA Security" title="Admin 2FA Security Guard"
-          class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-teal-400">
+          class="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-teal-400">
           <svg id="admin-lock-icon" class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
           </svg>
@@ -79,7 +89,7 @@
 
         <!-- Language Toggle (EN | ខ្មែរ) -->
         <button id="lang-toggle" type="button" aria-label="Toggle Language"
-          class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold transition-colors">
+          class="px-2.5 sm:px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold transition-colors">
           <span id="lang-label">EN | ខ្មែរ</span>
         </button>
 
@@ -149,38 +159,46 @@
         <!-- 1. Event Classification -->
         <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm">
           <label class="block text-sm font-semibold mb-3"><span data-i18n="q1Title">1. Event Classification</span> <span class="text-rose-500">*</span></label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5" id="classification-group">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5" id="classification-group">
             <button type="button" data-value="Near-Miss"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600 transition-all">
-              <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center justify-between mb-1 gap-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400" data-i18n="classNearMiss">Near-Miss</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classNearMissDesc">Caught before reaching patient (No Harm)</p>
             </button>
             <button type="button" data-value="Incident"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-600 transition-all">
-              <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center justify-between mb-1 gap-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400" data-i18n="classIncident">Incident</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classIncidentDesc">Reached patient (No / Minor Harm)</p>
             </button>
             <button type="button" data-value="Adverse Event"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-orange-400 dark:hover:border-orange-600 transition-all">
-              <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center justify-between mb-1 gap-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400" data-i18n="classAdverse">Adverse Event</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-orange-500 shrink-0"></span>
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classAdverseDesc">Moderate or Severe patient harm</p>
             </button>
             <button type="button" data-value="Sentinel Event"
               class="class-card text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-rose-500 dark:hover:border-rose-600 transition-all">
-              <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center justify-between mb-1 gap-1">
                 <span class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400" data-i18n="classSentinel">Sentinel Event</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-600 shrink-0"></span>
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classSentinelDesc">Critical / Immediate RCA required</p>
+            </button>
+            <button type="button" data-value="Workflow Disruption"
+              class="class-card sm:col-span-2 lg:col-span-1 text-left p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all">
+              <div class="flex items-center justify-between mb-1 gap-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400" data-i18n="classWorkflow">Workflow Disruption</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0"></span>
+              </div>
+              <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="classWorkflowDesc">System error, server/PACS down, or communication delay</p>
             </button>
           </div>
           <input type="hidden" id="event-classification" required />
@@ -224,6 +242,8 @@
               <option value="Interventional / Procedural Complication" data-i18n="catInterventional">Interventional / Procedural Complication</option>
               <option value="Patient ID / Wrong Site/Side" data-i18n="catPatientId">Patient ID / Wrong Site / Side</option>
               <option value="Equipment Failure / Malfunction" data-i18n="catEquipment">Equipment Failure / Malfunction</option>
+              <option value="IT / PACS / RIS / Server Outage" data-i18n="catItOutage">IT / PACS / RIS / Server Outage</option>
+              <option value="Communication / Handover Breakdown" data-i18n="catCommBreakdown">Communication / Handover Breakdown</option>
               <option value="Needlestick / Sharps / Exposure (PEP)" data-i18n="catNeedlestick">Needlestick / Sharps / Exposure (PEP)</option>
               <option value="Critical Finding Delay" data-i18n="catCritical">Critical Finding Delay</option>
               <option value="Patient Fall / Transfer" data-i18n="catFall">Patient Fall / Transfer</option>
@@ -540,6 +560,19 @@
         </div>
       </div>
 
+      <!-- Register Sync Status Banner (Shown during live sync or when offline queue is pending) -->
+      <div id="register-sync-banner" class="hidden rounded-xl border px-3.5 py-2.5 text-xs flex items-center justify-between gap-2 transition-all">
+        <div class="flex items-center gap-2 min-w-0">
+          <svg id="register-sync-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span id="register-sync-msg" class="font-medium truncate"></span>
+        </div>
+        <button type="button" id="register-sync-retry-btn" class="hidden px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-amber-600 hover:bg-amber-700 text-white shrink-0 cursor-pointer" data-i18n="retrySyncBtn">
+          Retry Sync
+        </button>
+      </div>
+
       <!-- Register List -->
       <div id="register-list" class="space-y-3"></div>
     </section>
@@ -628,7 +661,7 @@
       Made in Cambodia 🇰🇭
     </p>
     <p class="text-[11px] text-slate-400 dark:text-slate-500" data-i18n="footerLatestEdition">
-      Latest Edition: November 10, 2026
+      Latest Edition: November 13, 2026
     </p>
   </footer>
 
@@ -990,6 +1023,8 @@
           classAdverseDesc: 'Moderate or Severe patient harm',
           classSentinel: 'Sentinel Event',
           classSentinelDesc: 'Critical / Immediate RCA required',
+          classWorkflow: 'Workflow Disruption',
+          classWorkflowDesc: 'System error, server/PACS down, or communication delay',
           q2Title: '2. Date & Time of Occurrence',
           q3Title: '3. Location / Modality',
           q4Title: '4. Radiology Incident Category',
@@ -1078,7 +1113,6 @@
           dashFilterTitle: 'Dashboard Date Filter',
           dashFilterSubtitle: 'Filter metrics & charts by incident occurrence date',
           footerMadeIn: 'Made in Cambodia 🇰🇭',
-          footerLatestEdition: 'Latest Edition: November 10, 2026',
           selectCategoryPlaceholder: 'Select incident category...',
           catContrast: 'Contrast Reaction / Extravasation',
           catRadiation: 'Radiation Safety / ALARA / Pregnancy Screening',
@@ -1086,6 +1120,8 @@
           catInterventional: 'Interventional / Procedural Complication',
           catPatientId: 'Patient ID / Wrong Site / Side',
           catEquipment: 'Equipment Failure / Malfunction',
+          catItOutage: 'IT / PACS / RIS / Server Outage',
+          catCommBreakdown: 'Communication / Handover Breakdown',
           catNeedlestick: 'Needlestick / Sharps / Exposure (PEP)',
           catCritical: 'Critical Finding Delay',
           catFall: 'Patient Fall / Transfer',
@@ -1108,7 +1144,18 @@
           deleteConfirmOk: 'Yes, Delete Report',
           adminUnlockedToast: 'Admin unlocked for ',
           adminLockedToast: 'Admin session locked.',
-          unauthorizedNotice: 'Admin 2FA authentication required.'
+          unauthorizedNotice: 'Admin 2FA authentication required.',
+          footerLatestEdition: 'Latest Edition: November 13, 2026',
+          syncStateSynced: 'Sheet Synced',
+          syncStateSyncing: 'Syncing...',
+          syncStateOffline: 'Offline (Local)',
+          syncStatePending: 'Pending Sync',
+          retrySyncBtn: 'Retry Sync',
+          syncBannerPulling: 'Syncing live records from Google Sheets (Incident_Register)...',
+          syncBannerPending: 'change(s) saved locally — waiting for internet to sync to Google Sheet.',
+          syncBannerOffline: 'Hospital Wi-Fi offline — running from localStorage cache.',
+          syncToastSuccess: 'Synced with Google Sheets',
+          syncToastOffline: 'Network unavailable — saved locally & will sync when online.'
         },
         km: {
           appTitle: 'RadSafe',
@@ -1128,6 +1175,8 @@
           classAdverseDesc: 'ប៉ះពាល់អ្នកជំងឺកម្រិតមធ្យម ឬធ្ងន់',
           classSentinel: 'ហេតុការណ៍ធ្ងន់ធ្ងរបំផុត (Sentinel)',
           classSentinelDesc: 'ធ្ងន់ធ្ងរ / ត្រូវការ RCA ជាបន្ទាន់',
+          classWorkflow: 'រអាក់រអួលការងារ (Workflow)',
+          classWorkflowDesc: 'កំហុសប្រព័ន្ធ ដាច់សេវា Server ឬបញ្ហាទំនាក់ទំនង',
           q2Title: '២. កាលបរិច្ឆេទ និងម៉ោងកើតហេតុ',
           q3Title: '៣. ទីតាំង / ឧបករណ៍ថតឆ្លុះ',
           q4Title: '៤. ប្រភេទនៃឧប្បត្តិហេតុផ្នែកវិទ្យុសាស្ត្រ',
@@ -1216,7 +1265,7 @@
           dashFilterTitle: 'តម្រងកាលបរិច្ឆេទផ្ទាំងទិន្នន័យ',
           dashFilterSubtitle: 'ចម្រាញ់ទិន្នន័យ និងគំនូសតាងតាមកាលបរិច្ឆេទកើតហេតុ',
           footerMadeIn: 'Made in Cambodia 🇰🇭',
-          footerLatestEdition: 'Latest Edition: November 10, 2026',
+          footerLatestEdition: 'Latest Edition: November 13, 2026',
           selectCategoryPlaceholder: 'ជ្រើសរើសប្រភេទឧប្បត្តិហេតុ...',
           catContrast: 'ប្រតិកម្មថ្នាំពណ៌ / ការលេចធ្លាយថ្នាំ (Contrast Reaction / Extravasation)',
           catRadiation: 'សុវត្ថិភាពវិទ្យុសកម្ម / ALARA / ពិនិត្យផ្ទៃពោះ (Radiation Safety)',
@@ -1224,6 +1273,8 @@
           catInterventional: 'ផលវិបាកផ្នែកអន្តរាគមន៍ / នីតិវិធី (Interventional Complication)',
           catPatientId: 'ខុសអត្តសញ្ញាណអ្នកជំងឺ / ខុសទីតាំង/ចំហៀង (Wrong ID / Site)',
           catEquipment: 'ឧបករណ៍ខូច / ដំណើរការខុសប្រក្រតី (Equipment Failure)',
+          catItOutage: 'បញ្ហាប្រព័ន្ធ PACS / RIS / ដាច់ Server (IT / System Outage)',
+          catCommBreakdown: 'បញ្ហាទំនាក់ទំនង / ការផ្ទេរវេន (Communication Breakdown)',
           catNeedlestick: 'មុតម្ជុល / របស់ស្រួច / ប៉ះពាល់ឈាម (Needlestick / PEP)',
           catCritical: 'ការពន្យារពេលលទ្ធផលសង្គ្រោះបន្ទាន់ (Critical Finding Delay)',
           catFall: 'ការដួលរបស់អ្នកជំងឺ / ពេលផ្ទេរ (Patient Fall / Transfer)',
@@ -1246,7 +1297,17 @@
           deleteConfirmOk: 'បាទ/ចាស លុបរបាយការណ៍',
           adminUnlockedToast: 'បានដោះសោសិទ្ធិរដ្ឋបាលដោយជោគជ័យសម្រាប់ ',
           adminLockedToast: 'បានចាក់សោសិទ្ធិរដ្ឋបាលឡើងវិញ។',
-          unauthorizedNotice: 'សូមដោះសោដោយលេខកូដ 2FA TOTP ជាមុនសិន។'
+          unauthorizedNotice: 'សូមដោះសោដោយលេខកូដ 2FA TOTP ជាមុនសិន។',
+          syncStateSynced: 'បានភ្ជាប់ Sheet',
+          syncStateSyncing: 'កំពុងភ្ជាប់...',
+          syncStateOffline: 'ក្រៅបណ្តាញ',
+          syncStatePending: 'រង់ចាំបញ្ជូន',
+          retrySyncBtn: 'ព្យាយាមម្តងទៀត',
+          syncBannerPulling: 'កំពុងទាញយកទិន្នន័យចុងក្រោយពី Google Sheets (Incident_Register)...',
+          syncBannerPending: 'កំណត់ត្រាត្រូវបានរក្សាទុកក្នុងឧបករណ៍ — រង់ចាំអ៊ីនធឺណិតដើម្បីបញ្ជូនទៅ Google Sheet។',
+          syncBannerOffline: 'គ្មានសេវា Wi-Fi មន្ទីរពេទ្យ — កំពុងប្រើប្រាស់ទិន្នន័យក្នុងឧបករណ៍។',
+          syncToastSuccess: 'បានធ្វើសមកាលកម្មជាមួយ Google Sheets រួចរាល់',
+          syncToastOffline: 'គ្មានអ៊ីនធឺណិត — បានរក្សាទុកក្នុងឧបករណ៍ និងនឹងបញ្ជូនពេលមានសេវា។'
         }
       };
 
@@ -1269,6 +1330,7 @@
           reporterNameEl.placeholder = dict.anonPlaceholder || 'Anonymous (Identity Protected)';
         }
         if (typeof updateAdminUI === 'function') updateAdminUI();
+        if (typeof updateSyncPillUI === 'function') updateSyncPillUI(currentSyncState);
       }
 
       document.getElementById('lang-toggle').addEventListener('click', () => {
@@ -1396,8 +1458,328 @@
         }, 3000);
       }
 
-      // ---- Data Persistence ----
+      // ---- Google Sheets Live Sync & Hospital Wi-Fi Resilience ----
+      const GS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzg4izjE35tHhP36tKiqvevuD3VdvLcMFKWiO3WyzOB3qzyODCnGV5HLfAv3DdMhn7dXQ/exec';
+      const PENDING_SYNC_KEY = 'rad_safety_pending_sync_v1';
+      const LAST_SYNC_KEY = 'rad_safety_last_sync_v1';
+
+      let currentSyncState = 'syncing'; // 'syncing' | 'synced' | 'pending' | 'offline'
+      let isSyncingSheet = false;
+      let pendingQueue = [];
+      let lastSyncedAt = localStorage.getItem(LAST_SYNC_KEY) || '';
+
+      function loadPendingQueue() {
+        try {
+          const raw = localStorage.getItem(PENDING_SYNC_KEY);
+          pendingQueue = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(pendingQueue)) pendingQueue = [];
+        } catch (e) {
+          pendingQueue = [];
+        }
+      }
+
+      function savePendingQueue() {
+        try {
+          localStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(pendingQueue));
+        } catch (e) {}
+      }
+
+      function enqueuePendingMutation(payload) {
+        if (payload.action === 'clear') {
+          pendingQueue = [{ action: 'clear', queuedAt: Date.now() }];
+        } else {
+          pendingQueue.push({ ...payload, queuedAt: Date.now() });
+        }
+        savePendingQueue();
+      }
+
+      function normalizeDateTimeFromSheet(val) {
+        if (!val) return '';
+        const str = String(val).trim();
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(str)) {
+          return str;
+        }
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(str)) {
+          return str.slice(0, 16);
+        }
+        const d = new Date(str);
+        if (!isNaN(d.getTime())) {
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const dd = String(d.getDate()).padStart(2, '0');
+          const hh = String(d.getHours()).padStart(2, '0');
+          const min = String(d.getMinutes()).padStart(2, '0');
+          return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+        }
+        return str;
+      }
+
+      function normalizeReportFromSheet(r) {
+        let factorsArr = [];
+        if (Array.isArray(r.factors)) {
+          factorsArr = r.factors;
+        } else if (typeof r.factors === 'string' && r.factors.trim()) {
+          try {
+            factorsArr = JSON.parse(r.factors);
+          } catch (e) {
+            factorsArr = r.factors.split(',').map(s => s.trim()).filter(Boolean);
+          }
+        }
+        return {
+          id: String(r.id || ''),
+          classification: String(r.classification || 'Incident'),
+          datetime: normalizeDateTimeFromSheet(r.datetime),
+          modality: String(r.modality || ''),
+          category: String(r.category || ''),
+          severity: String(r.severity || ''),
+          description: String(r.description || ''),
+          action: String(r.action || ''),
+          factors: factorsArr,
+          reporterName: String(r.reporterName || 'Anonymous'),
+          reporterRole: String(r.reporterRole || 'Anonymous'),
+          status: String(r.status || 'Submitted'),
+          investigator: String(r.investigator || ''),
+          rca: String(r.rca || '')
+        };
+      }
+
+      function updateSyncPillUI(state) {
+        currentSyncState = state || currentSyncState;
+        const dict = I18N[currentLang] || I18N.en;
+        const btn = document.getElementById('sheet-sync-btn');
+        const dot = document.getElementById('sheet-sync-dot');
+        const spinner = document.getElementById('sheet-sync-spinner');
+        const text = document.getElementById('sheet-sync-text');
+
+        const banner = document.getElementById('register-sync-banner');
+        const bannerIcon = document.getElementById('register-sync-icon');
+        const bannerMsg = document.getElementById('register-sync-msg');
+        const retryBtn = document.getElementById('register-sync-retry-btn');
+
+        if (btn && dot && spinner && text) {
+          btn.classList.remove(
+            'bg-sky-50', 'dark:bg-sky-950/60', 'border-sky-200', 'dark:border-sky-800', 'text-sky-700', 'dark:text-sky-300',
+            'bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-200', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300',
+            'bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800', 'text-amber-700', 'dark:text-amber-300',
+            'bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300'
+          );
+          dot.classList.remove('bg-sky-500', 'bg-emerald-500', 'bg-amber-500', 'bg-slate-400');
+
+          if (currentSyncState === 'syncing') {
+            btn.classList.add('bg-sky-50', 'dark:bg-sky-950/60', 'border-sky-200', 'dark:border-sky-800', 'text-sky-700', 'dark:text-sky-300');
+            dot.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            text.textContent = dict.syncStateSyncing || 'Syncing...';
+            btn.title = 'Syncing with Google Sheets (Incident_Register)...';
+          } else if (currentSyncState === 'synced') {
+            btn.classList.add('bg-emerald-50', 'dark:bg-emerald-950/60', 'border-emerald-200', 'dark:border-emerald-800', 'text-emerald-700', 'dark:text-emerald-300');
+            dot.classList.remove('hidden');
+            dot.classList.add('bg-emerald-500');
+            spinner.classList.add('hidden');
+            text.textContent = dict.syncStateSynced || 'Sheet Synced';
+            btn.title = lastSyncedAt
+              ? `Synced with Google Sheets (${lastSyncedAt}). Click to refresh.`
+              : 'Synced with Google Sheets. Click to refresh.';
+          } else if (currentSyncState === 'pending') {
+            btn.classList.add('bg-amber-50', 'dark:bg-amber-950/60', 'border-amber-200', 'dark:border-amber-800', 'text-amber-700', 'dark:text-amber-300');
+            dot.classList.remove('hidden');
+            dot.classList.add('bg-amber-500');
+            spinner.classList.add('hidden');
+            const label = dict.syncStatePending || 'Pending Sync';
+            text.textContent = pendingQueue.length > 0 ? `${label} (${pendingQueue.length})` : label;
+            btn.title = `${pendingQueue.length} local change(s) queued. Click to retry sync with Google Sheets.`;
+          } else {
+            btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            dot.classList.remove('hidden');
+            dot.classList.add('bg-amber-500');
+            spinner.classList.add('hidden');
+            text.textContent = dict.syncStateOffline || 'Offline (Local)';
+            btn.title = 'Offline fallback active (localStorage). Click to reconnect with Google Sheets.';
+          }
+        }
+
+        // Update Register inline sync banner
+        if (banner && bannerIcon && bannerMsg && retryBtn) {
+          banner.classList.remove(
+            'hidden',
+            'bg-sky-50', 'dark:bg-sky-950/40', 'border-sky-200', 'dark:border-sky-800', 'text-sky-800', 'dark:text-sky-200',
+            'bg-amber-50', 'dark:bg-amber-950/40', 'border-amber-200', 'dark:border-amber-800', 'text-amber-800', 'dark:text-amber-200'
+          );
+          if (currentSyncState === 'syncing') {
+            banner.classList.add('bg-sky-50', 'dark:bg-sky-950/40', 'border-sky-200', 'dark:border-sky-800', 'text-sky-800', 'dark:text-sky-200');
+            bannerIcon.classList.add('animate-spin');
+            bannerMsg.textContent = dict.syncBannerPulling || 'Syncing live records from Google Sheets (Incident_Register)...';
+            retryBtn.classList.add('hidden');
+          } else if (currentSyncState === 'pending' && pendingQueue.length > 0) {
+            banner.classList.add('bg-amber-50', 'dark:bg-amber-950/40', 'border-amber-200', 'dark:border-amber-800', 'text-amber-800', 'dark:text-amber-200');
+            bannerIcon.classList.remove('animate-spin');
+            bannerMsg.textContent = `${pendingQueue.length} ${dict.syncBannerPending || 'change(s) saved locally — waiting for internet to sync to Google Sheet.'}`;
+            retryBtn.classList.remove('hidden');
+          } else if (currentSyncState === 'offline') {
+            banner.classList.add('bg-amber-50', 'dark:bg-amber-950/40', 'border-amber-200', 'dark:border-amber-800', 'text-amber-800', 'dark:text-amber-200');
+            bannerIcon.classList.remove('animate-spin');
+            bannerMsg.textContent = dict.syncBannerOffline || 'Hospital Wi-Fi offline — running from localStorage cache.';
+            retryBtn.classList.remove('hidden');
+          } else {
+            banner.classList.add('hidden');
+          }
+        }
+      }
+
+      async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+        const controller = new AbortController();
+        const timerId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const response = await fetch(url, { ...options, signal: controller.signal });
+          return response;
+        } finally {
+          clearTimeout(timerId);
+        }
+      }
+
+      async function postToGoogleSheet(payload) {
+        const res = await fetchWithTimeout(GS_WEBAPP_URL, {
+          method: 'POST',
+          mode: 'cors',
+          redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (!data || data.status !== 'ok') {
+          throw new Error((data && data.message) || 'Google Sheet sync error');
+        }
+        return data;
+      }
+
+      async function flushPendingQueue() {
+        if (pendingQueue.length === 0) return true;
+        while (pendingQueue.length > 0) {
+          const item = pendingQueue[0];
+          try {
+            await postToGoogleSheet(item);
+            pendingQueue.shift();
+            savePendingQueue();
+          } catch (err) {
+            if (item.action === 'update' && err && String(err.message).includes('not found') && item.report) {
+              try {
+                await postToGoogleSheet({ action: 'create', report: item.report });
+                pendingQueue.shift();
+                savePendingQueue();
+                continue;
+              } catch (e2) {
+                return false;
+              }
+            }
+            return false;
+          }
+        }
+        return true;
+      }
+
+      async function syncFromSheet(manual = false) {
+        if (isSyncingSheet) return;
+        isSyncingSheet = true;
+        updateSyncPillUI('syncing');
+
+        try {
+          const flushed = await flushPendingQueue();
+          if (!flushed) {
+            updateSyncPillUI('pending');
+            if (manual) {
+              const dict = I18N[currentLang] || I18N.en;
+              showToast(dict.syncToastOffline || 'Network unavailable — saved locally.', 'info');
+            }
+            return;
+          }
+
+          const sep = GS_WEBAPP_URL.includes('?') ? '&' : '?';
+          const cacheBustUrl = `${GS_WEBAPP_URL}${sep}_t=${Date.now()}`;
+          const res = await fetchWithTimeout(cacheBustUrl, {
+            method: 'GET',
+            mode: 'cors',
+            redirect: 'follow'
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          if (!data || data.status !== 'ok' || !Array.isArray(data.reports)) {
+            throw new Error((data && data.message) || 'Invalid response from Google Sheets');
+          }
+
+          reports = data.reports.map(normalizeReportFromSheet);
+          saveReports();
+
+          const now = new Date();
+          lastSyncedAt = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          localStorage.setItem(LAST_SYNC_KEY, lastSyncedAt);
+
+          updateSyncPillUI('synced');
+          renderRegister();
+          renderDashboard();
+
+          if (manual) {
+            const dict = I18N[currentLang] || I18N.en;
+            showToast(`${dict.syncToastSuccess || 'Synced with Google Sheets'} (${reports.length})`);
+          }
+        } catch (err) {
+          console.warn('Google Sheets sync fallback to localStorage:', err);
+          updateSyncPillUI(pendingQueue.length > 0 ? 'pending' : 'offline');
+          if (manual) {
+            const dict = I18N[currentLang] || I18N.en;
+            showToast(dict.syncToastOffline || 'Network unavailable — using localStorage cache.', 'info');
+          }
+        } finally {
+          isSyncingSheet = false;
+        }
+      }
+
+      async function syncMutationToSheet(payload) {
+        updateSyncPillUI('syncing');
+        try {
+          // Flush any older pending items first so order is preserved
+          if (pendingQueue.length > 0) {
+            const flushed = await flushPendingQueue();
+            if (!flushed) throw new Error('Offline queue blocked');
+          }
+          await postToGoogleSheet(payload);
+          const now = new Date();
+          lastSyncedAt = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          localStorage.setItem(LAST_SYNC_KEY, lastSyncedAt);
+          updateSyncPillUI('synced');
+          return true;
+        } catch (err) {
+          // If updating a row that does not exist yet on Sheet, auto-create it
+          if (payload.action === 'update' && err && String(err.message).includes('not found') && payload.report) {
+            try {
+              await postToGoogleSheet({ action: 'create', report: payload.report });
+              updateSyncPillUI('synced');
+              return true;
+            } catch (e2) {}
+          }
+          console.warn('Google Sheet POST failed, queued locally:', err);
+          enqueuePendingMutation(payload);
+          updateSyncPillUI('pending');
+          return false;
+        }
+      }
+
+      const sheetSyncBtn = document.getElementById('sheet-sync-btn');
+      if (sheetSyncBtn) {
+        sheetSyncBtn.addEventListener('click', () => syncFromSheet(true));
+      }
+      const registerSyncRetryBtn = document.getElementById('register-sync-retry-btn');
+      if (registerSyncRetryBtn) {
+        registerSyncRetryBtn.addEventListener('click', () => syncFromSheet(true));
+      }
+      window.addEventListener('online', () => syncFromSheet(false));
+      window.addEventListener('offline', () => updateSyncPillUI(pendingQueue.length > 0 ? 'pending' : 'offline'));
+
+      // ---- Data Persistence (localStorage cache + Sheet sync) ----
       function loadReports() {
+        loadPendingQueue();
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw === null) {
@@ -1419,6 +1801,19 @@
 
       function updateBadge() {
         document.getElementById('register-count-badge').textContent = reports.length;
+      }
+
+      function generateNextReportId() {
+        const year = new Date().getFullYear();
+        const prefix = `RAD-${year}-`;
+        let maxNum = 0;
+        reports.forEach(r => {
+          if (r && typeof r.id === 'string' && r.id.startsWith(prefix)) {
+            const num = parseInt(r.id.slice(prefix.length), 10);
+            if (!isNaN(num) && num > maxNum) maxNum = num;
+          }
+        });
+        return `${prefix}${String(Math.max(maxNum, reports.length) + 1).padStart(3, '0')}`;
       }
 
       // ---- Tab Navigation ----
@@ -1558,7 +1953,7 @@
         const factors = Array.from(document.querySelectorAll('input[name="factors"]:checked')).map(cb => cb.value);
 
         pendingReport = {
-          id: `RAD-${new Date().getFullYear()}-${String(reports.length + 1).padStart(3, '0')}`,
+          id: generateNextReportId(),
           classification,
           datetime: document.getElementById('event-datetime').value,
           modality,
@@ -1616,11 +2011,26 @@
       });
 
       // Final Submission upon Confirmation
-      document.getElementById('final-submit-confirm-btn').addEventListener('click', () => {
+      const finalSubmitBtn = document.getElementById('final-submit-confirm-btn');
+      finalSubmitBtn.addEventListener('click', async () => {
         if (!pendingReport) return;
 
-        reports.unshift(pendingReport);
+        const reportToSubmit = { ...pendingReport };
+        const originalHtml = finalSubmitBtn.innerHTML;
+        finalSubmitBtn.disabled = true;
+        finalSubmitBtn.innerHTML = `
+          <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span>${currentLang === 'km' ? 'កំពុងបញ្ជូន...' : 'Syncing...'}</span>`;
+
+        reports.unshift(reportToSubmit);
         saveReports();
+
+        const synced = await syncMutationToSheet({ action: 'create', report: reportToSubmit });
+
+        finalSubmitBtn.disabled = false;
+        finalSubmitBtn.innerHTML = originalHtml;
 
         // Close dialogue
         closeSubmitConfirmModal();
@@ -1642,9 +2052,15 @@
         }
         setDefaultDateTime();
 
-        showToast(currentLang === 'km'
-          ? `របាយការណ៍ ${pendingReport.id} ត្រូវបានបញ្ជូនដោយជោគជ័យ!`
-          : `Report ${pendingReport.id} submitted successfully!`);
+        if (synced) {
+          showToast(currentLang === 'km'
+            ? `របាយការណ៍ ${reportToSubmit.id} ត្រូវបានបញ្ជូនទៅ Google Sheet ដោយជោគជ័យ!`
+            : `Report ${reportToSubmit.id} saved & synced to Google Sheet!`);
+        } else {
+          showToast(currentLang === 'km'
+            ? `បានរក្សាទុក ${reportToSubmit.id} ក្នុងឧបករណ៍ (នឹងបញ្ជូនទៅ Sheet ពេលមានសេវា)`
+            : `Report ${reportToSubmit.id} saved locally (will sync to Sheet when online).`, 'info');
+        }
 
         pendingReport = null;
 
@@ -1658,6 +2074,7 @@
           if (val === 'Near-Miss') return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300';
           if (val === 'Incident') return 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300';
           if (val === 'Adverse Event') return 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300';
+          if (val === 'Workflow Disruption') return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300';
           return 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300';
         }
         if (type === 'status') {
@@ -2199,7 +2616,8 @@
       document.getElementById('close-modal-btn').addEventListener('click', closeModal);
       document.getElementById('cancel-modal-btn').addEventListener('click', closeModal);
 
-      document.getElementById('save-modal-btn').addEventListener('click', () => {
+      const saveModalBtn = document.getElementById('save-modal-btn');
+      saveModalBtn.addEventListener('click', async () => {
         if (!is2FaUnlocked()) {
           const dict = I18N[currentLang] || I18N.en;
           showToast(dict.unauthorizedNotice || 'Admin 2FA authentication required.', 'error');
@@ -2208,14 +2626,39 @@
         }
         const idx = reports.findIndex(r => r.id === currentModalId);
         if (idx === -1) return;
+
         reports[idx].status = document.getElementById('modal-status-select').value;
         reports[idx].investigator = document.getElementById('modal-investigator').value.trim();
         reports[idx].rca = document.getElementById('modal-rca').value.trim();
+        const updatedReport = { ...reports[idx] };
         saveReports();
+
+        const saveBtnText = document.getElementById('save-btn-text');
+        const saveBtnIcon = document.getElementById('save-btn-icon');
+        const prevText = saveBtnText ? saveBtnText.textContent : 'Save Updates';
+        const prevIcon = saveBtnIcon ? saveBtnIcon.textContent : '💾';
+        saveModalBtn.disabled = true;
+        if (saveBtnIcon) saveBtnIcon.textContent = '⏳';
+        if (saveBtnText) saveBtnText.textContent = currentLang === 'km' ? 'កំពុងរក្សាទុក...' : 'Syncing...';
+
+        const synced = await syncMutationToSheet({ action: 'update', report: updatedReport });
+
+        saveModalBtn.disabled = false;
+        if (saveBtnIcon) saveBtnIcon.textContent = prevIcon;
+        if (saveBtnText) saveBtnText.textContent = prevText;
+
         closeModal();
         renderRegister();
         renderDashboard();
-        showToast(`Updated ${reports[idx].id} investigation details.`);
+        if (synced) {
+          showToast(currentLang === 'km'
+            ? `បានធ្វើបច្ចុប្បន្នភាព ${updatedReport.id} ក្នុង Google Sheet!`
+            : `Updated ${updatedReport.id} & synced to Google Sheet.`);
+        } else {
+          showToast(currentLang === 'km'
+            ? `បានរក្សាទុក ${updatedReport.id} ក្នុងឧបករណ៍ (នឹងបញ្ជូនទៅ Sheet ពេលមានសេវា)`
+            : `Updated ${updatedReport.id} locally (will sync when online).`, 'info');
+        }
       });
 
       // ---- Delete Entry Handler (Single Report) ----
@@ -2268,24 +2711,38 @@
         pendingConfirmAction = null;
       });
 
-      document.getElementById('confirm-ok-btn').addEventListener('click', () => {
+      const confirmOkBtn = document.getElementById('confirm-ok-btn');
+      confirmOkBtn.addEventListener('click', async () => {
+        const prevBtnText = confirmOkBtn.textContent;
+        confirmOkBtn.disabled = true;
+        confirmOkBtn.textContent = currentLang === 'km' ? 'កំពុងលុប...' : 'Syncing...';
+
         if (pendingConfirmAction === 'delete-single') {
           if (currentModalId) {
             const deletedId = currentModalId;
             reports = reports.filter(r => r.id !== deletedId);
             saveReports();
+            const synced = await syncMutationToSheet({ action: 'delete', id: deletedId });
             closeModal();
             renderRegister();
             renderDashboard();
-            showToast(`Report ${deletedId} permanently deleted.`);
+            showToast(synced
+              ? `Report ${deletedId} deleted from Google Sheet.`
+              : `Report ${deletedId} deleted locally (will sync when online).`, synced ? 'success' : 'info');
           }
         } else {
           reports = [];
           saveReports();
+          const synced = await syncMutationToSheet({ action: 'clear' });
           renderRegister();
           renderDashboard();
-          showToast('All reports cleared.');
+          showToast(synced
+            ? 'All reports cleared from Google Sheet.'
+            : 'All reports cleared locally (will sync when online).', synced ? 'success' : 'info');
         }
+
+        confirmOkBtn.disabled = false;
+        confirmOkBtn.textContent = prevBtnText;
         confirmModal.classList.add('hidden');
         confirmModal.classList.remove('flex');
         pendingConfirmAction = null;
@@ -2674,6 +3131,7 @@
       setDefaultDateTime();
       loadReports();
       updateAdminUI();
+      syncFromSheet(false);
     })();
   </script>
 </body>
